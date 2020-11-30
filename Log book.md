@@ -1,10 +1,10 @@
-Week one##
+##Week one
 
 Going through my project idea as it stands it was not specific enough, as such I was suggested to make the idea more specific and streamline, I read related content as reaches so that the project can be narrowed down.
 
 After reading the paperers I manged to get the project idea more narrowed down but still not narrowed down enough, as it still had too many ideas combined, so I needed to further narrow it down so I can get a project idea.
 
-Week two##
+##Week two
 
 I decided to change my proposal idea, as the idea in question might not have been that motivating to do as time passed than I previously thought it would.
 
@@ -12,13 +12,13 @@ As such I reaserched into something else the I could use as the new idea. Gating
 
 The proposal I created was good but not pinpointed to my idea in specific areas of the proposal and wording, I also needed to remove and change around some text as it was placed in wrong area.
 
-Week three##
+##Week three
 
 I Added the changes that where suggested, extending the doc’s information by adding a begging paragraph, added more details to how the project will be more outlined, and fixed up the miner points. 
 
 I was suggested to move a section that can go into another section, checked my spelling, add more references and link them back to what is beaning said.
 
-Week four##
+##Week four
 
 I wanted to get a better undertaking about few more things, regarding hand information and the things to consider when it came to reaction time and motor skills; and if anything, else that I could add to the current research I have. I found two different academic pappies, one looking more into motor skills and reaction time and the other regarding hand-to-hand information transfer related to befits in motor skills with repeated practise.
 
@@ -26,7 +26,7 @@ I looked online to find options for storing and collecting data on Unity. I foun
 
 As such a format file might be the option to use at the time bearing, but still look around if I can find nether options.  
 
-Week five##
+##Week five
 
 I read the two other papers I found to get more inflation in the subject I’m investigating.
 
