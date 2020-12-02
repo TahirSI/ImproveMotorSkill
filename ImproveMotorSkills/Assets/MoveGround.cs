@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoveGround : MonoBehaviour
 {
-    private float speed = 10;
+    public float speed = 10;
 
     public Transform transportpoint;
 
@@ -15,9 +15,9 @@ public class MoveGround : MonoBehaviour
 
         this.transform.position -= move * Time.deltaTime;
 
-        if(transform.position.x <= -21)
+        if(transform.position.x <= -17)
         {
-            move = new Vector3(5, 0, 0);
+            move = new Vector3(transportpoint.position.x + 11, 0, 0);
 
             this.transform.position = move;
         }
