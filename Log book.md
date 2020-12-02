@@ -48,4 +48,8 @@ Even though this paper says the motor skill inflation can be transferred between
 
 I created a reop on github to store the Unity game for this project. I downloaded the stammered assets pack from Unity that as some 2d assets I can use in the game. I built a simple scene to test the assets.
 
- 
+## Week six
+
+Using the unity’s asset pack, I took some of the 2d assets that where inculked as the place holders for the basic game functionality. I got three platforms to move backwards, the assets provide where made slightly made incorrectly witch I need to fix and found out that the grid individual is 100 x 100 in dimensions which is good to know when I will need to make my own assets.
+
+I added jumping based on a key press for the charter sprite that I’m using t temporary and got an object that moves like the platforms to act like an obstacle to jump over. The obstacle is triggerable, when the character triggered the obstacle’s collider the character rotates and should stop after rotating twice, but it’s doesn’t as I’m unclear how unity uses the Euler angle in degrees or radians, and need figure out which it is.
