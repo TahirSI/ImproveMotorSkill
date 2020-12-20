@@ -48,8 +48,15 @@ Even though this paper says the motor skill inflation can be transferred between
 
 I created a reop on github to store the Unity game for this project. I downloaded the stammered assets pack from Unity that as some 2d assets I can use in the game. I built a simple scene to test the assets.
 
-## Week six
+## Week six & Seven
 
 Using the unity’s asset pack, I took some of the 2d assets that where inculked as the place holders for the basic game functionality. I got three platforms to move backwards, the assets provide where made slightly made incorrectly witch I need to fix and found out that the grid individual is 100 x 100 in dimensions which is good to know when I will need to make my own assets.
 
 I added jumping based on a key press for the charter sprite that I’m using t temporary and got an object that moves like the platforms to act like an obstacle to jump over. The obstacle is triggerable, when the character triggered the obstacle’s collider the character rotates and should stop after rotating twice, but it’s doesn’t as I’m unclear how unity uses the Euler angle in degrees or radians, and need figure out which it is.
+
+## Week Eight
+
+I managed to figure out what was going wrong with the Euler angles and the rotation to work the way I wanted. I what the character to rotate twice if the play doesn’t dodge in time and the rotation is in range of -360 to 360 with zero being the starting point, as such having the code check if it has reached the rotation value of 720 wouldn’t work, instead I set up a simple counter to check how many times the character has rotated and once the given amount of 2 is reached the rotation stopes. 
+
+I was going to also setup the time for how long the player has to input the right key to enable a jump to happen. However, putting the timer in the update might not the best idea for example if a process is taking its time the timer could be inaccurate by either it being too fast or being behind as such giving and recording misleading information. I thought I might have to use multi threshed processing, but I found that Unity isn’t multi thread safe. I found that could use IEnumerator and Coroutines to get asynchrony type functionality.  
+
