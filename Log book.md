@@ -1,8 +1,8 @@
 ## Week one
 
-Going through my project idea as it stands it was not specific enough, as such I was suggested to make the idea more specific and streamline, I read related content as reaches so that the project can be narrowed down.
+Going through my project idea as it stands it was not specific enough, as such I was suggested to make the idea more specific and streamline, I read related content as the research for the project can be narrowed down.
 
-After reading the paperers I manged to get the project idea more narrowed down but still not narrowed down enough, as it still had too many ideas combined, so I needed to further narrow it down so I can get a project idea.
+After reading the paperers I found. The project idea was more Pacific but still not narrowed down enough, as it still had too many ideas combined. So I needed to further narrow it down.
 
 ## Week two
 
