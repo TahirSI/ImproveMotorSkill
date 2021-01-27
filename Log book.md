@@ -1,8 +1,8 @@
 ## Week one
 
-Going through my project idea as it stands it was not specific enough, as such I was suggested to make the idea more specific and streamline, I read related content as reaches so that the project can be narrowed down.
+Going through my project idea as it stands it was not specific enough, as such I was suggested to make the idea more specific and streamline, I read related content as the research for the project can be narrowed down.
 
-After reading the paperers I manged to get the project idea more narrowed down but still not narrowed down enough, as it still had too many ideas combined, so I needed to further narrow it down so I can get a project idea.
+After reading the paperers I found. The project idea was more Pacific but still not narrowed down enough, as it still had too many ideas combined. So I needed to further narrow it down.
 
 ## Week two
 
@@ -48,4 +48,35 @@ Even though this paper says the motor skill inflation can be transferred between
 
 I created a reop on github to store the Unity game for this project. I downloaded the stammered assets pack from Unity that as some 2d assets I can use in the game. I built a simple scene to test the assets.
 
+## Week six & Seven
+
+Using the unity’s asset pack, I took some of the 2d assets that where inculked as the place holders for the basic game functionality. I got three platforms to move backwards, the assets provide where made slightly made incorrectly witch I need to fix and found out that the grid individual is 100 x 100 in dimensions which is good to know when I will need to make my own assets.
+
+I added jumping based on a key press for the charter sprite that I’m using t temporary and got an object that moves like the platforms to act like an obstacle to jump over. The obstacle is triggerable, when the character triggered the obstacle’s collider the character rotates and should stop after rotating twice, but it’s doesn’t as I’m unclear how unity uses the Euler angle in degrees or radians, and need figure out which it is.
+
+## Week Eight
+
+I managed to figure out what was going wrong with the Euler angles and the rotation to work the way I wanted. I what the character to rotate twice if the play doesn’t dodge in time and the rotation is in range of -360 to 360 with zero being the starting point, as such having the code check if it has reached the rotation value of 720 wouldn’t work, instead I set up a simple counter to check how many times the character has rotated and once the given amount of 2 is reached the rotation stopes. 
+
+I was going to also setup the time for how long the player has to input the right key to enable a jump to happen. However, putting the timer in the update might not the best idea for example if a process is taking its time the timer could be inaccurate by either it being too fast or being behind as such giving and recording misleading information. I thought I might have to use multi threshed processing, but I found that Unity isn’t multi thread safe. I found that could use IEnumerator and Coroutines to get asynchrony type functionality.
+
+## Week Eight
+
+I managed to figure out what was going wrong with the Euler angles and the rotation to work the way I wanted. I what the character to rotate twice if the play doesn’t dodge in time and the rotation is in range of -360 to 360 with zero being the starting point, as such having the code check if it has reached the rotation value of 720 wouldn’t work, instead I set up a simple counter to check how many times the character has rotated and once the given amount of 2 is reached the rotation stopes. 
+
+I was going to also setup the time for how long the player has to input the right key to enable a jump to happen. However, putting the timer in the update might not the best idea for example if a process is taking its time the timer could be inaccurate by either it being too fast or being behind as such giving and recording misleading information. I thought I might have to use multi threshed processing, but I found that Unity isn’t multi thread safe. I found that could use IEnumerator and Coroutines to get asynchrony type functionality.  
  
+## Week nine & ten Christmas brake
+
+When coding on Unity impending the timer and getting object to be colligable apone the timer running out, I resales that the  amount of time I had gathered from research for hum reaction time was too long even more so when multiplied by 2, which defeated the purpose of trying to simulate video game fats past reactions, so by a few trial and error by me putting in numbers, I think having 5 seconds of time seamed right as I was able do it under 3 seconds but I also have to take in account of the non-video game players that I will also asking to take part in my study.
+
+I also thought it and about having the timer go up would be better to record and witch makes sense to see the information; and my fist idea had me only me checking the difference between the first record and the second, but I was subjected that it could better having a bunch of attempts, and I was concerned about the information being difficult make scene if there were too many,  thinking more about having multiple attempts is better but limiting to them to something like 10, so that the person doing the study doesn’t lose intense and thus making the exponent a failure.
+
+## Week eleven & twelve 
+
+Putting the Unity project on hold for now, I spent the time writing the work in progress documentation. This included the report, the participation information sheet, consent form and the privacy policy. Though given the COVID-19 pandemic, getting the participants to fill out documentation and retrieve them back has to be handled a bit differently. I made sure to include this in the forms, so the participants are aware of this.
+
+As I was filling out some of the information, I realized that I needed to consider what exactly the participants need to avoid so the study doesn’t become invalid, like not drinking alcohol that would impede their results. Even though my study involves very low risk, I needed to make sure that the way the participants take part, minimizes or prevents any risk. So, instructing the participants on how to take a uniform way but keeping mind doing it in their own way, so that I would get the best results, was needed to be considered.
+
+I realized that I didn’t include that the participants should get at least a recommended amount of sleep, so that they body, and mind is in peak shape.
+
