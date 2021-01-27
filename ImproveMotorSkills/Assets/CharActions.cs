@@ -7,21 +7,31 @@ public class CharActions : MonoBehaviour
     Animator animator;
     Rigidbody2D rb;
 
+    Timer timer;
+
+    public MoveObsticles cube;
+
     // Values
     float jump_force_muil = 28;
-    float rotate_speed = 300;
+    float rotate_speed = 500;
 
     int rotate_points = 0;
 
 
     // Bools
     public bool grounded = false;
-    public bool juping = false;
+    public bool jumping = false;
+    public bool sliding = false;
+    public bool dogeding = false;
 
-    public bool notDodged = false;
+    public bool cantDodge = false;
 
 
+    // Private
+    private bool interactable = false;
+    private bool doged = false;
     private bool jumped = false;
+    private bool slided = false;
 
 
     // Start is called before the first frame update
@@ -29,61 +39,102 @@ public class CharActions : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+
+        timer = GetComponent<Timer>();
+
+        timer.StartTimer();
+
+        interactable = true;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(grounded && !jumped)
+        if(interactable)
         {
-            if (Input.GetKeyDown(KeyCode.A))
+            // Timer still going
+            if (!timer.TimerReachedEnd())
             {
-                jumped = true;
+                timer.UpdateTimer();
 
-                juping = true;
+                // If a correct key has been pressed
+                if (Input.GetKeyDown(KeyCode.A))
+                {
+                    // Store time
+
+                    // reset timer
+                    timer.ResetTimer();
+                    timer.UpdateTimer();
+
+                    // Dodging state true
+                    interactable = false;
+
+                    doged = true;
+
+                    cube.ActivateObject();
+                }
+
+                if (!doged && timer.GetCurrentTime() > 2f)
+                {
+                    cube.ActivateObject();
+                }
             }
-        }
 
-        // Not Dodged
-        if(notDodged)
-        {
-            rb.bodyType = RigidbodyType2D.Static;
-
-            transform.Rotate(Vector3.back * rotate_speed * Time.deltaTime);
-
-            //Debug.Log("z angle: " + transform.eulerAngles.z);
-
-            float deg = 90f;
-
-            float rad = deg * Mathf.Deg2Rad;
-
-            if (transform.eulerAngles.z >= -rad)
+            // Not Dodged  in time
+            if(cantDodge)
             {
-                rotate_points++;
+                rb.bodyType = RigidbodyType2D.Static;
 
-                Debug.Log("rotated num: " + rotate_points);
-            }
+                transform.Rotate(Vector3.forward * rotate_speed * Time.deltaTime);
 
-            if(rotate_points == 2)
-            {
-                rotate_points = 0;
+                // Roate until the last poine
+                if (transform.eulerAngles.z >= 355)
+                {
+                    rotate_points++;
 
-                notDodged = false;
+                    //Debug.Log("rotated num cout: " + rotate_points);
 
-                rb.bodyType = RigidbodyType2D.Dynamic;
+                    transform.rotation = new Quaternion(0, 0, 0, 0);
+                }
+
+                if (rotate_points == 2)
+                {
+                    rotate_points = 0;
+
+                    cantDodge = false;
+
+                    rb.bodyType = RigidbodyType2D.Dynamic;
+                }
             }
         }
 
         // Dodged
-        else
+        if (doged)
         {
+            if(!dogeding)
+            {
+                if (cube.gameObject.transform.position.x <= (this.transform.position.x + 5) &&
+                    cube.gameObject.transform.position.x >= (this.transform.position.x))
+                {
+                    jumping = true;
+                    jumped = true;
 
+                    dogeding = true;
+                    doged = false;
+                }
+            }
+        }
+
+        if(cube.GetObjectActive())
+        {
+            cube.UpdateObject();
         }
     }
 
+    // Fixed update
     private void FixedUpdate()
     {
-
         if (jumped)
         {
             rb.AddForce(Vector2.up * jump_force_muil, ForceMode2D.Impulse);
@@ -92,32 +143,46 @@ public class CharActions : MonoBehaviour
         }
     }
 
+    // collistion - Enter
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Grounded
-        if(collision.gameObject.tag == "Ground")
+        if (collision.gameObject.tag == "Ground")
         {
             grounded = true;
-            juping = false;
+
+            if(dogeding)
+            {
+                dogeding = false;
+
+                timer.StartTimer();
+                interactable = true;
+            }
         }
     }
 
+    // collistion - Exit
     private void OnCollisionExit2D(Collision2D collision)
     {
         // Grounded
-        if (juping && collision.gameObject.tag == "Ground")
+        if (doged && collision.gameObject.tag == "Ground")
         {
             grounded = false;
         }
     }
 
-
+    // Trigerbale - Enter
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Dodging
-        if (collision.gameObject.tag == "Dodgeable")
+        if(!doged)
         {
-            notDodged = true;
+            // Not Dodged
+            if (!cantDodge && collision.gameObject.tag == "Dodgeable")
+            {
+                cantDodge = true;
+
+                //Debug.Log("Not doged: " + rotate_points);
+            }
         }
     }
 }

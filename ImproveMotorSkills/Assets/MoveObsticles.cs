@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class MoveObsticles : MonoBehaviour
 {
+    public Transform beginingPos;
     public float speed = 10;
 
     private Vector3 begin_point = new Vector3(0, 0, 0);
@@ -14,7 +15,7 @@ public class MoveObsticles : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void UpdateObject()
     {
         Vector3 move = new Vector3(speed, 0, 0);
 
@@ -24,5 +25,17 @@ public class MoveObsticles : MonoBehaviour
         {
             this.transform.position = begin_point;
         }
+    }
+
+    [System.Obsolete]
+    public void ActivateObject()
+    {
+        this.gameObject.active = true;
+    }
+
+    [System.Obsolete]
+    public bool GetObjectActive()
+    {
+        return this.gameObject.active;
     }
 }
