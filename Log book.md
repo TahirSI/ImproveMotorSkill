@@ -100,3 +100,6 @@ After I started on the script for the demo video that was coming up the followin
  
 I was also given feedback to see other types of studies to find how they have done their results for motor skill gathering, as the way I am doing it might not lead me to gatherer the correct information.
 
+## Week fifteen
+
+From the feedback received I started to make the changes but randomly a problem occurred with Visual studio, and all of the changes I had made where reverted to when Visual studio program was opened last. Unity also gained a problem as having scripts issues even though there aren’t any. So, I need to fix these issues before I can get the program to be built.
