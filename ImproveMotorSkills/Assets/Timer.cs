@@ -5,13 +5,11 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    public float timerToStoAt = 3;
+    public float timerToStopAt = 3;
     float time = 0;
-    public Text timeText;
 
     // Bools
-    bool timer_on = true;
-    bool reset_timer = false;
+    bool timer_on = false;
     bool timerReachedEnd = false;
 
     // Update is called once per frame
@@ -21,12 +19,10 @@ public class Timer : MonoBehaviour
         if (timer_on)
         {
             time += Time.deltaTime;
-            DisplayTime(time);
 
-            if (time >= timerToStoAt)
+            if (time >= timerToStopAt)
             {
-                time = timerToStoAt;
-                DisplayTime(time);
+                time = timerToStopAt;
 
                 timer_on = false;
 
@@ -34,24 +30,6 @@ public class Timer : MonoBehaviour
                 timerReachedEnd = true;
             }
         }
-
-        // Reset timer
-        if (reset_timer)
-        {
-            time = 0;
-            DisplayTime(time);
-
-            timerReachedEnd = false;     // Reached time
-            reset_timer = false;            // Reset timer
-
-            timer_on = false;
-        }
-    }
-
-    // Display text
-    void DisplayTime(float _time)
-    {
-        timeText.text = time.ToString("F6");
     }
 
     // Start timer 
@@ -63,13 +41,23 @@ public class Timer : MonoBehaviour
     // Restart 
     public void ResetTimer()
     {
-        reset_timer = true;
+        time = 0;
+
+        timerReachedEnd = false;     // Reached time
+
+        timer_on = false;
     }
 
     // Get timer amount 
     public float GetTimerToStopAmount()
     {
-        return timerToStoAt;
+        return timerToStopAt;
+    }
+
+    // Get timer still on
+    public bool GetTimerStillOn()
+    {
+        return timer_on;
     }
 
     // Get the reached time

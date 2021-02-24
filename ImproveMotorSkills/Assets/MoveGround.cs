@@ -15,7 +15,7 @@ public class MoveGround : MonoBehaviour
 
         this.transform.position -= move * Time.deltaTime;
 
-        if(transform.position.x <= -17)
+        if(transform.position.x <= -16)
         {
             move = new Vector3(transportpoint.position.x + 11, 0, 0);
 
