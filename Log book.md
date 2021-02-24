@@ -80,3 +80,26 @@ As I was filling out some of the information, I realized that I needed to consid
 
 I realized that I didn’t include that the participants should get at least a recommended amount of sleep, so that they body, and mind is in peak shape.
 
+## Week thirteen
+ 
+I put the program/game on hold to complete the work in progress document. I had to include what I’m doing and why or what lead me to doing the way I’m doing the project. 
+ 
+Also because I am planning on using human participants, I also needed to include appendixes which included the information sheet, consent form and privacy notice.
+ 
+After it was complete, I sent it off and when back to building the program.
+ 
+## Week fourteen
+ 
+I spent a few days coding to get the inputs with interaction right as an alfa build, which then can be refined and improved later. 
+ 
+I decided to have three different inputs witch would show up in order one at a time, repeating 12 times in a row. The player would be prompted to press the key for a dodge action to happen. The keys would be randomly generated only once when the program starts up. 
+ 
+After the main concept was done, to display the information on screen I linked them with text fields.
+ 
+After I started on the script for the demo video that was coming up the following week. It took some time trying to fit everything under 2 minutes and I managed to miss some information out and not explain things correctly, which led to a lot questions about the project on the day of showing the video.
+ 
+I was also given feedback to see other types of studies to find how they have done their results for motor skill gathering, as the way I am doing it might not lead me to gatherer the correct information.
+
+## Week fifteen
+
+From the feedback received I started to make the changes but randomly a problem occurred with Visual studio, and all of the changes I had made where reverted to when Visual studio program was opened last. Unity also gained a problem as having scripts issues even though there aren’t any. So, I need to fix these issues before I can get the program to be built.
