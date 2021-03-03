@@ -54,7 +54,7 @@ public class CharActions : MonoBehaviour
 
     private bool jumped = false;
 
-    private bool slided = false;
+    //private bool slided = false;
     private bool slideingReached = false;
 
     
@@ -230,7 +230,7 @@ public class CharActions : MonoBehaviour
                         rb.bodyType = RigidbodyType2D.Static;
 
                         sliding = true;
-                        slided = false;
+                        //slided = false;
 
                         secondary = false;
                     }
@@ -451,12 +451,12 @@ public class CharActions : MonoBehaviour
 
             Vector3 move = new Vector3(6, 0, 0);
 
-            this.transform.position -= move * Time.deltaTime;
+            transform.position -= move * Time.deltaTime;
 
             // Reached the starting pos
-            if (this.transform.position.x <= playerStartPos.x)
+            if (transform.position.x <= playerStartPos.x)
             {
-                this.transform.position = playerStartPos;
+                transform.position = playerStartPos;
 
                 doginng = false;
 
