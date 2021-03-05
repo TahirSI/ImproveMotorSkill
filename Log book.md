@@ -103,3 +103,21 @@ I was also given feedback to see other types of studies to find how they have do
 ## Week fifteen
 
 From the feedback received I started to make the changes but randomly a problem occurred with Visual studio, and all of the changes I had made where reverted to when Visual studio program was opened last. Unity also gained a problem as having scripts issues even though there aren’t any. So, I need to fix these issues before I can get the program to be built.
+
+## Week sixteen
+
+This week I managed to fix the issue that I was having with Unity working with Visual studio, by upgrading both visual studio and building the Unity project to the latest version. Doing this and fixing some code problems I managed to get the project to run again.
+
+I first switched out how the input would be handled, with 10 attempts instead of 12, every key will be randomised instead of three re-occurring keys, and I decided to only have one type of action the jump rather than two.
+
+I also displayed the key that needs to be inputted in a text field, that shows up and disappears depending the input time.
+
+I was suggested that to have the input move with the object that needs to dodge, having the inputs feel like a part on the game instead of it being a bit disengaged, making the experiment look like a game useless.
+
+## Week seventeen
+
+Taking feedback from last week, I changed the text field that showed what input needs to be pressed to be images instead, and I got them to follow the object(s) to dodge.
+
+I Implemented a way to store information on local disc and made a quick end screen that shows all scores results. I made the scripts that stores data to store two types of data, the first will store the result that will be sent as part of my research data, this won’t change after the experiment has been completed and the other is the data that collects the changing (high score) results as part of the game loop. I did make so both results can be seen from the game end screen.
+
+I also set up an outline of the UI structure with a; start, pause, scores and quit screens with some of the button’s functionality working.
