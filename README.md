@@ -1,4 +1,4 @@
-# Reactipon Time Project
+# Can video games improve Motor skills.
 This repo holds a Unity project for 2020 - 2021 dissertation, Game tech.
 
-The project investigates the reaction time of humanbeings through the use of a Unity game project.
+The project investigates if playing video games can improve humanbeings motor skills. To test this a Unity game project will be used to collect the data.
