@@ -62,8 +62,12 @@ public class PlayerAcations : MonoBehaviour
         {
             transform.Rotate(Vector3.forward * rotateSpeed * Time.deltaTime);
 
+
             if (transform.eulerAngles.z >= 350)
             {
+                // Chnage roation is handled
+                // Keep add to current rot mount - 356 + next amount
+
                 // Increats amaout roation
                 amountRoatations++;
 

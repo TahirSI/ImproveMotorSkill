@@ -8,14 +8,12 @@ public class MainUpdate : MonoBehaviour
     // Private
     private bool fishedCollcting = false;
 
-    private bool practice = false;
+    //private bool practice = false;
+    //private bool showIntroCards = false;
 
     private bool readyingAnouncment = false;
     private bool playGame = false;
     private bool paused = false;
-    //private bool showingScore = false;
-
-    //private bool informHowToPlay = false;
 
     private bool performence = false;
     private bool interactable = false;
@@ -26,6 +24,7 @@ public class MainUpdate : MonoBehaviour
 
     private int inputIndex = 0;
     private float[] timesStored = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
 
     // External
     private Settings settings;
@@ -50,6 +49,9 @@ public class MainUpdate : MonoBehaviour
 
     // Objects to doage
     public MoveDodgable objectToDodge;
+
+    public MovingText moveReadyText;
+    public MovingText moveGoText;
 
     // Start is called before the first frame update
     private void Start()
@@ -80,14 +82,12 @@ public class MainUpdate : MonoBehaviour
         // Set pos des
         displayedInput.SetPosShift(new Vector3(67 / 2, 90, 0));
 
-        // Disolaying ready & go text
-        gettingReadyTimer.timerToStopAt = 1;
+        // Display ready 
+        gettingReadyTimer.timerToStopAt = 0.8f;
+
 
         // Set wait time - 1 sec
         waitToStartTimer.timerToStopAt = 1;
-
-        waitToStartTimer.StartTimer();
-
 
         // Set input timer
         inputTimer.timerToStopAt = settings.dodgeTime;
@@ -106,7 +106,21 @@ public class MainUpdate : MonoBehaviour
         // Set the dogable obejct speed
         objectToDodge.speed = settings.dodgableObjectsSpeed;
 
+        //practice = gameDataControl.GetNeedToPractice();
+
         playGame = true;
+
+        readyingAnouncment = true;
+
+
+        // Set scale to anaime at
+        moveReadyText.SetMinMaxScales(settings.readytextScalMinMax.x, settings.readytextScalMinMax.y);
+
+        // Set Go text
+        moveGoText.SetMinMaxScales(settings.gotextScalMinMax.x, settings.gotextScalMinMax.y);
+
+        // Start getting ready timer
+        gettingReadyTimer.StartTimer();
     }
 
     void Update()
@@ -117,41 +131,119 @@ public class MainUpdate : MonoBehaviour
             // Not paused
             if (!paused)
             {
-                #region practicing
-                /* // Practicing
-                if(practice)
-                {
-                    if (informHowToPlay)
-                    {
-
-                    }
-                    else
-                    {
-                        waitToStartTimer.UpdateTimer();
-
-                        // Timer ended
-                        if (!waitToStartTimer.GetTimerStillOn())
-                        {
-                            waitToStartTimer.ResetTimer();
-
-                        }
-                    }
-                }*/
-                #endregion
 
                 if (readyingAnouncment)
                 {
-                    // Update
-                    gettingReadyTimer.UpdateTimer();
-
-                    // Timer Stoped
-                    if (!gettingReadyTimer.GetTimerStillOn())
+                    if(gettingReadyTimer.GetTimerStillOn())
                     {
-                        gettingReadyTimer.ResetTimer();
+                        // Update timer
+                        gettingReadyTimer.UpdateTimer();
 
-                        readyingAnouncment = false;
+                        if(!gettingReadyTimer.GetTimerStillOn())
+                        {
+                            // Anouncements - Active
+                            uIControler.ActivateAnoucments();
+
+                            // Ready text
+                            uIControler.ActivateReadyText();
+
+                            // Set ready speed
+                            moveReadyText.SetScaleSpeed(settings.readyTextScaleSpeed.x);
+
+                            // Set Ready fade speed
+                            moveReadyText.SetFadeSpedd(settings.readyTextFadeSpeed.x);
+                        }
+                    }
+                    else
+                    {
+                        // Ready text is ON 
+                        if (uIControler.GetReadyText())
+                        {
+                            // Last scale
+                            if(moveReadyText.GetCurrentScale().x >=
+                                moveReadyText.GetMidScaleDis())
+                            {
+                                // Set ready speed
+                                moveReadyText.SetScaleSpeed(settings.readyTextScaleSpeed.z);
+
+                                // Set Ready fade speed
+                                moveReadyText.SetFadeSpedd(settings.readyTextFadeSpeed.y);
+                            }
+
+                            // Mid scale
+                            else if (moveReadyText.GetCurrentScale().x >=
+                                moveReadyText.GetStartScaleDis())
+                            {
+                                // Set ready scale speed
+                                moveReadyText.SetScaleSpeed(settings.readyTextScaleSpeed.y);
+                            }
+
+
+                            // Update ready text
+                            moveReadyText.UpdateText();
+
+
+                            // Go text
+                            if (!uIControler.GetGoText() &&
+                                moveReadyText.GetCurrentScale().x >=
+                                moveReadyText.GetMidScaleDis())
+                            {
+
+                                uIControler.ActivateGoText();
+
+                                // Set Go scale speed
+                                moveGoText.SetScaleSpeed(settings.goTextScaleSpeed.x);
+
+                                // Set Go fade speed
+                                moveGoText.SetFadeSpedd(settings.goTextFadeSpeed.x);
+                            }
+
+                        }
+
+                        // If Go text is ON
+                        if (uIControler.GetGoText())
+                        {
+                            // Last scake
+                            if (moveGoText.GetCurrentScale().x <=
+                                moveGoText.GetMidScaleDis())
+                            {
+                                // Set ready speed
+                                moveGoText.SetScaleSpeed(settings.goTextScaleSpeed.z);
+
+                                // Set Go fade speed
+                                moveGoText.SetFadeSpedd(settings.goTextFadeSpeed.y);
+                            }
+
+                            // Mid scale
+                            else if (moveGoText.GetCurrentScale().x <=
+                                moveGoText.GetStartScaleDis())
+                            {
+                                // Set ready speed
+                                moveGoText.SetScaleSpeed(settings.goTextScaleSpeed.y);
+                            }
+
+
+                            // Update go text
+                            moveGoText.UpdateText();
+                        }
+
+                        // Timer readyingAnouncment
+                        if (!uIControler.GetReadyText() &&
+                            !uIControler.GetGoText())
+                        {
+                            gettingReadyTimer.ResetTimer();
+
+                            uIControler.DeActivateAnoucments();
+
+                            readyingAnouncment = false;
+
+
+                            // Start the game wait time
+                            waitToStartTimer.StartTimer();
+                        }
                     }
                 }
+                
 
                 // Reading has stoped
                 else
@@ -380,6 +472,7 @@ public class MainUpdate : MonoBehaviour
     }
 
 
+
     // UI buttons
 
     public void StartPlaying()
@@ -392,9 +485,14 @@ public class MainUpdate : MonoBehaviour
 
     }
 
+    [SerializeField]
     public void PlayAgian()
     {
-        waitToStartTimer.StartTimer();
+        // Start getting ready timer
+        gettingReadyTimer.StartTimer();
+
+        readyingAnouncment = true;
+
 
         playGame = true;
 
