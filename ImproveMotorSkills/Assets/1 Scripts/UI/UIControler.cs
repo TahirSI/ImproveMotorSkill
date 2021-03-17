@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class UIControler : MonoBehaviour
 {
+    public Settings settings;
+    
     // Start
     public GameObject start;
 
@@ -14,62 +18,139 @@ public class UIControler : MonoBehaviour
     // Quit
     public GameObject quit;
 
+
     // Diplaying text - anoucment
     public GameObject anoucments;
     public GameObject readyText;
     public GameObject goText;
 
+    
     // Intro crds - practice attempt
     public GameObject introCradsHolder;
     public GameObject[] introCards;
 
+    
+    // input counter
+    public GameObject inputCounter;
+    public Text inputCounterText;
+    
+    
     // Scores
-    public GameObject scoreDisplay;
-    public GameObject justGotScores;
-    public GameObject sendtScores;
+    public GameObject soresDisplay;
 
-    public GameObject sentResultsButton;
-    public GameObject backResultsButton;
+    // Panles
+    public GameObject chnageScores;
+    public GameObject permanenttScores;
 
-    public Text[] justGotScoresTexts;
-    public Text[] sentScoresTexts;
+    // Score texts
+    public Text [] scoresChnageText;
+    public Text [] scorePermntText;
+    
+    public Text scoresChnageAvrageText;     // Avrage - chnage
+    public Text scoresPermntAvrageText;     // Avrage - permenat
 
+    public GameObject newHighScore;
+    
+    
+    
+    // Diffrent secetions for buttons
+    public GameObject scoresInResults;
+    public GameObject scoresInMenu;
+    
+    // Buttons
+    public GameObject scoresBackToMenuButton;
+
+    public GameObject pauseButton;
+    
+    
     // Set Scores
-    public void SetJustGotScoreText(int index, float amount)
+    #region Set results/scores
+    
+    // Displau score
+    public void SetChnageScoresText(int index, float amount)
     {
-        string toSet = "";
+        var text = "";
 
-        if (amount <= 0)
+        if (amount >= settings.dodgeTime)
         {
-            toSet = "Missed";
+            text = "Missed";
         }
         else
         {
-            toSet = amount.ToString();
+            text = amount.ToString(CultureInfo.InvariantCulture);
         }
-
-        justGotScoresTexts[index].text = toSet;
+        
+        scoresChnageText[index].text = text;
     }
-
-    public void SetSentScoreData(int index, float amount)
+    
+    public void SetPermanentScoresText(int index, float amount)
     {
-        string toSet = "";
+        var text = "";
 
-        if (amount <= 0)
+        if (amount >= settings.dodgeTime)
         {
-            toSet = "Missed";
+            text = "Missed";
         }
         else
         {
-            toSet = amount.ToString();
+            text = amount.ToString(CultureInfo.InvariantCulture);
         }
-
-        sentScoresTexts[index].text = toSet;
+        
+        scorePermntText[index].text = text;
     }
 
+    // Avrages
+    public void SetChangeScoreAvrageText(float amount)
+    {
+        scoresChnageAvrageText.text = amount.ToString(CultureInfo.InvariantCulture);
+    }       // Change
+    public void SetPermanentScoreAvrageText(float amount)
+    {
+        scoresPermntAvrageText.text = amount.ToString(CultureInfo.InvariantCulture);
+    }   // Permant
+    
+    #endregion
+    
+    
+    // Input counter
+    public void ActivateInputCounter()
+    {
+        inputCounter.SetActive(true);
+    }
+    
+    public void DeActivateInputCounter()
+    {
+        inputCounter.SetActive(false);
+    }
+    
+    public bool GeInputCounter()
+    {
+        return inputCounter;
+    }
 
+    // Inpu counter text
+    public void SetInputCounterText(int count)
+    {
+        var text = "";
+
+        if (count < 10)
+        {
+            text = "0" + count.ToString();
+        }
+        else
+        {
+            text = count.ToString();
+        }
+        
+        inputCounterText.text = text + " / " + settings.inputValues.Length.ToString();
+    }
+    
+    
+    
     // Actions
-
+    
+    #region States
+    
     // Start
     public void ActivateStart()
     {
@@ -120,111 +201,154 @@ public class UIControler : MonoBehaviour
         return quit.activeSelf;
     }
 
+    #endregion
 
-    // Score display
-    public void ActivateScoreDisplay()
+    
+    #region Scores
+
+    // SoresDisplay
+    public void ActivateScoresDisplay()
     {
-        scoreDisplay.SetActive(true);
+        soresDisplay.SetActive(true);
     }
-
-    public void DeActivateScoreDisplay()
+    
+    public void DeActivateScoresDisplay()
     {
-        scoreDisplay.SetActive(false);
+        soresDisplay.SetActive(false);
     }
-
-    public bool GetScoreDisplay()
+    
+    public bool GetScoresDisplay()
     {
-        return scoreDisplay.activeSelf;
+        return soresDisplay.activeSelf;
     }
-
-
-    // Just got scores
-    public void ActivateJustGotScores()
+    
+    
+    // Chnage Scores
+    public void ActivateChnageScores()
     {
-        justGotScores.SetActive(true);
+        chnageScores.SetActive(true);
     }
-
-    public void DeActivateJustGotScores()
+    
+    public void DeActivateChnageScores()
     {
-        justGotScores.SetActive(false);
+        chnageScores.SetActive(false);
     }
-
-    public bool GetJustGotScores()
+    
+    public bool GetChnageScores()
     {
-        return justGotScores.activeSelf;
+        return chnageScores.activeSelf;
     }
-
-
-    // Set scores
-    public void ActivateSendtScores()
+    
+    // Permanentt scores
+    public void ActivatePermanenttScores()
     {
-        sendtScores.SetActive(true);
+        permanenttScores.SetActive(true);
     }
-
-    public void DeActivateSendtScores()
+    
+    public void DeActivatePermanenttScores()
     {
-        sendtScores.SetActive(false);
+        permanenttScores.SetActive(false);
     }
-
-    public bool GetSendtScores()
+    
+    public bool GetPermanenttScores()
     {
-        return sendtScores.activeSelf;
-    }
-
-
-    // Sent results button
-    public void ActivateSentResultsButton()
-    {
-        sentResultsButton.SetActive(true);
-    }
-
-    public void DeActivateSentResultsButton()
-    {
-        sentResultsButton.SetActive(false);
-    }
-
-    public bool GetSentResultsButton()
-    {
-        return sentResultsButton.activeSelf;
+        return permanenttScores.activeSelf;
     }
 
 
-    // BAck to results button
-    public void ActivateBackResultsButton()
+    // In results scores
+    public void ActivateScoresInResults()
     {
-        sentResultsButton.SetActive(true);
+        scoresInResults.SetActive(true);
+    }
+    
+    public void DeActivateScoresInResults()
+    {
+        scoresInResults.SetActive(false);
+    }
+    
+    public bool GetScoresInResults()
+    {
+        return scoresInResults.activeSelf;
+    }
+    
+    // In menu scores
+    public void ActivateScoresInMenu()
+    {
+        scoresInMenu.SetActive(true);
+    }
+    
+    public void DeActivateScoresInMenu()
+    {
+        scoresInMenu.SetActive(false);
+    }
+    
+    public bool GetScoresInMenu()
+    {
+        return scoresInMenu.activeSelf;
+    }
+    
+    
+    // New high score
+    public void ActivateNewHighScore()
+    {
+        newHighScore.SetActive(true);
+    }
+    
+    public void DeActivateNewHighScore()
+    {
+        newHighScore.SetActive(false);
+    }
+    
+    public bool GetNewHighScore()
+    {
+        return newHighScore.activeSelf;
+    }
+    
+    #endregion
+    
+
+    #region Buttons
+
+    // Back to menu button
+    public void ActivateBackToMenuButton()
+    {
+        scoresBackToMenuButton.SetActive(true);
+    }
+    
+    public void DeActivateBackToMenuButton()
+    {
+        scoresBackToMenuButton.SetActive(false);
+    }
+    
+    public bool GetBackToMenuButton()
+    {
+        return scoresBackToMenuButton.activeSelf;
+    }
+    
+    
+    // Pause button
+    public void ActivatePauseButton()
+    {
+        pauseButton.SetActive(true);
+    }
+    
+    public void DeActivatePauseButton()
+    {
+        pauseButton.SetActive(false);
+    }
+    
+    public bool GetPauseButton()
+    {
+        return pauseButton.activeSelf;
     }
 
-    public void DeActivateBackResultsButton()
-    {
-        sentResultsButton.SetActive(false);
-    }
-
-    public bool GetBackResultsButton()
-    {
-        return sentResultsButton.activeSelf;
-    }
-
-
-    // anoucments - holder
-    public void ActivateAnoucments()
-    {
-        anoucments.SetActive(true);
-    }
-
-    public void DeActivateAnoucments()
-    {
-        anoucments.SetActive(false);
-    }
-
-    public bool GetAnoucments()
-    {
-        return anoucments.activeSelf;
-    }
-
-
+    #endregion
+    
+    
     // Intro cadts
-
+    #region Intro ccards
+    
     // intro cards holder
     public void ActivateIntroCradsHolder()
     {
@@ -240,7 +364,8 @@ public class UIControler : MonoBehaviour
     {
         return introCradsHolder.activeSelf;
     }
-
+    
+    
     // Intro cards
     public void ActivateIntroCrads(int index)
     {
@@ -256,8 +381,30 @@ public class UIControler : MonoBehaviour
     {
         return introCards[index].activeSelf;
     }
+    
+    #endregion
 
 
+    // Text displays
+    #region Text displays
+    
+    // anoucments - holder
+    public void ActivateAnoucments()
+    {
+        anoucments.SetActive(true);
+    }
+
+    public void DeActivateAnoucments()
+    {
+        anoucments.SetActive(false);
+    }
+
+    public bool GetAnoucments()
+    {
+        return anoucments.activeSelf;
+    }
+    
+    
     // anoucments - ready text
     public void ActivateReadyText()
     {
@@ -290,4 +437,6 @@ public class UIControler : MonoBehaviour
     {
         return goText.activeSelf;
     }
+
+    #endregion
 }

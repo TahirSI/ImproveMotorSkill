@@ -6,11 +6,11 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour
 {
     public float timerToStopAt = 3;
-    float time = 0;
+    private float time;
 
     // Bools
-    bool timer_on = false;
-    bool timerReachedEnd = false;
+    private bool timer_on = false;
+    private bool timerReachedEnd;
 
     // Update is called once per frame
     public void UpdateTimer()

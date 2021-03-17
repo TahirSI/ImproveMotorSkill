@@ -6,16 +6,56 @@ public class GameDataControl : MonoBehaviour
 {
     public GameData gameData;
 
-    #region Storring
+    #region Storring / Getting
+    
+    // Permanent data 
     public void StorePermanentReults(int index, float result)
     {
         gameData.permanentStoredResults[index] = result;
     }
-
+    
+    // Avrage
+    public void StorePermanentAvrage(float result)
+    {
+        gameData.permanentAvrageResult = result;
+    }
+    
+    // Getters
+    public float GetPermanentReults(int index)
+    {
+        return gameData.permanentStoredResults[index];
+    }
+    
+    public float GetPermanentAvrage()
+    {
+        return gameData.permanentAvrageResult;
+    }
+    
+    
+    // Chgange data
     public void StoreChangeableReults(int index, float result)
     {
         gameData.changeableStoredResults[index] = result;
     }
+
+    // Avrage
+    public void StoreChangeableAvrage(float result)
+    {
+        gameData.changeableAvrageResult = result;
+    }
+    
+    
+    // Getters
+    public float GetChangeableReults(int index)
+    {
+        return gameData.changeableStoredResults[index];
+    }
+
+    public float GetChangeableAvrage()
+    {
+        return gameData.changeableAvrageResult;
+    }
+    
     #endregion
 
 
@@ -32,7 +72,7 @@ public class GameDataControl : MonoBehaviour
     #endregion
 
 
-    #region Collected mainresults
+    #region Collected main scores
     public void SetPermanentDataStorage(bool state)
     {
         gameData.gotPermanentStorage = state;
@@ -42,5 +82,6 @@ public class GameDataControl : MonoBehaviour
     {
         return gameData.gotPermanentStorage;
     }
+    
     #endregion
 }

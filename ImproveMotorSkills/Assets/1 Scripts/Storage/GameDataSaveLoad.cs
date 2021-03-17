@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -17,10 +15,7 @@ public class GameDataSaveLoad : MonoBehaviour
         LoadData();
     }
 
-    private string filePath
-    {
-        get { return Application.persistentDataPath + "/MotorSkillsGemData.dat"; }
-    }
+    private string filePath => Application.persistentDataPath + "/MotorSkillsGemData.dat";
 
     public void SaveData()
     {

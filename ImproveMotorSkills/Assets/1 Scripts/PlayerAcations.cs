@@ -9,20 +9,21 @@ public class PlayerAcations : MonoBehaviour
 
     private float jumpForceMuil = 20;
 
-    private bool stillJump = false;
-    private bool jumped = false;
+    private bool stillJump;
+    private bool jumped;
 
+    
     // Geting Hit
-    private bool getingHit = false;
+    private bool getingHit;
 
-    private bool getStillHit = false;
-    private bool getHitRoataing = false;
+    private bool getStillHit;
+    private bool getHitRoataing;
 
-    private bool grounded = false;
+    private bool grounded;
 
     // Got hit - roatation
-    private float rotateSpeed = 0;
-    private int amountRoatations = 0;
+    private float rotateSpeed;
+    private float amountRoatations;
 
     private Rigidbody2D rb;
 
@@ -31,8 +32,11 @@ public class PlayerAcations : MonoBehaviour
     // Start
     private void Start()
     {
+        //Start
+        orignalPos = transform.position;
+        
         rb = GetComponent<Rigidbody2D>();
-
+        
         orignalPos = transform.position;
         orignalRot = transform.rotation;
 
@@ -60,30 +64,22 @@ public class PlayerAcations : MonoBehaviour
         // Roataing
         if (getHitRoataing)
         {
-            transform.Rotate(Vector3.forward * rotateSpeed * Time.deltaTime);
+            // Roataion
+            transform.Rotate(Vector3.forward * (rotateSpeed * Time.deltaTime));
 
+            // Amount
+            amountRoatations += rotateSpeed * Time.deltaTime;
 
-            if (transform.eulerAngles.z >= 350)
+            if (amountRoatations >= 360 * 2)
             {
-                // Chnage roation is handled
-                // Keep add to current rot mount - 356 + next amount
+                // Set roatation
+                transform.rotation = orignalRot;
 
-                // Increats amaout roation
-                amountRoatations++;
+                amountRoatations = 0;
 
-                if(amountRoatations > 2)
-                {
-                    rb.bodyType = RigidbodyType2D.Dynamic;
+                getStillHit = false;
 
-                    // Set roatation
-                    transform.rotation = orignalRot;
-
-                    amountRoatations = 0;
-
-                    getStillHit = false;
-
-                    getHitRoataing = false;
-                }
+                getHitRoataing = false;
             }
         }
     }
@@ -105,19 +101,23 @@ public class PlayerAcations : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
         {
             // Grounded
-            if (!grounded && collision.gameObject.tag == "Ground")
+            if (!grounded && collision.gameObject.CompareTag("Ground"))
             {
                 grounded = true;
 
                 stillJump = false;
+                
+                rb.bodyType = RigidbodyType2D.Static;
+
+                transform.position = orignalPos;
             }
         }
 
     // collistion - Exit
     private void OnCollisionExit2D(Collision2D collision)
     {
-     ;   // Not Grounded
-        if (grounded && stillJump && collision.gameObject.tag == "Ground")
+        // Not Grounded
+        if (grounded && stillJump && collision.gameObject.CompareTag("Ground"))
         {
             grounded = false;
         }
@@ -130,13 +130,13 @@ public class PlayerAcations : MonoBehaviour
     public void ActivateGotHit()
     {
         getingHit = true;
-
-        rb.bodyType = RigidbodyType2D.Static;
     }
 
     // Jumping
     public void ActivateJump()
     {
+        rb.bodyType = RigidbodyType2D.Dynamic;
+
         stillJump = true;
 
         jumped = true;
@@ -160,5 +160,10 @@ public class PlayerAcations : MonoBehaviour
     public bool GetGrounded()
     {
         return grounded;
+    }
+
+    public Rigidbody2D GETHitRoataing()
+    {
+        return rb;
     }
 }

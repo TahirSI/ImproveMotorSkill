@@ -24,10 +24,8 @@ public class MoveDodgable : MonoBehaviour
 
         if (transform.position.x <= objectDestenc)
         {
-            transform.position = begin_point;
-
-            // Turn off the object
-            DeactivateObject();
+            // Reset
+            ResetObject();
         }
     }
 
@@ -58,5 +56,14 @@ public class MoveDodgable : MonoBehaviour
     public Transform GetTransform()
     {
         return gameObject.transform;
+    }
+
+    // Reste object
+    public void ResetObject()
+    {
+        transform.position = begin_point;
+
+        // Turn off the object
+        DeactivateObject();
     }
 }

@@ -4,33 +4,31 @@ using UnityEngine;
 
 public class MovingText : MonoBehaviour
 {
-    private float startScale = 0;
-    private float maxScale = 0;
-
+    private float startScale;
+    private float maxScale;
 
     // Speeds
-    private float setScaleSpeed = 0;
-    private float setFadeSpeed = 0;
-
+    private float setScaleSpeed;
+    private float setFadeSpeed;
 
     // Distence
-    private float startDistence = 0;
-    private float midDistence = 0;
-
+    private float startDistence;
+    private float midDistence;
 
     // Scale fast and nopublic
-    private bool fade = false;
-    private bool scaleInFading = false;
+    private bool fade;
+    private bool scaleInFading;
 
-    private bool scalingUp = false;
+    private bool scalingUp;
 
     // Update is called once per frame
+    // ReSharper disable Unity.PerformanceAnalysis
     public void UpdateText()
     {
         // Scale Update
         transform.localScale += new Vector3(setScaleSpeed, setScaleSpeed, 0) * Time.deltaTime;
-
-
+        
+        
         // Fade uodate
         if (fade)
         {
@@ -101,16 +99,16 @@ public class MovingText : MonoBehaviour
             scalingUp = true;
         }
 
-        float distance = max - min;
+        var distance = max - min;
 
         if(distance < 0)
         {
             distance = -distance;
         }
 
-        float partDis = distance / 4;
-
-
+        var partDis = distance / 4;
+        
+        
         if(scalingUp)
         {
             startDistence = partDis;
@@ -147,7 +145,6 @@ public class MovingText : MonoBehaviour
     {
         return midDistence;
     }
-
 
 
     // Seters

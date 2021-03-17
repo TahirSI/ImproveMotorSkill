@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,25 +7,28 @@ using UnityEngine.UI;
 public class MainUpdate : MonoBehaviour
 {
     // Private
-    private bool fishedCollcting = false;
+    private bool fishedCollcting;
 
     //private bool practice = false;
     //private bool showIntroCards = false;
 
-    private bool readyingAnouncment = false;
-    private bool playGame = false;
-    private bool paused = false;
+    private bool readyingAnouncment;
+    private bool playGame;
+    private bool paused;
 
-    private bool performence = false;
-    private bool interactable = false;
-    private bool acations = false;
-    private bool inputed = false;
+    private bool performence;
+    private bool interactable;
+    private bool inputed;
 
-    private bool doged = false;
+    private bool acations;
+    private bool extendAcations;
+
+    private bool dodged;
 
     private int inputIndex = 0;
-    private float[] timesStored = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    private float[] timesStored = new float[10];
 
+    private bool showNewScoreText;
 
     // External
     private Settings settings;
@@ -53,6 +57,8 @@ public class MainUpdate : MonoBehaviour
     public MovingText moveReadyText;
     public MovingText moveGoText;
 
+    public NewHiScoreBlinking newHiScore;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -67,21 +73,13 @@ public class MainUpdate : MonoBehaviour
         uIControler = FindObjectOfType<UIControler>();
 
         // Get the randome keys
-        for (int i = 0; i < settings.kyes.Length; i++)
-        {
-            // Get the rand value
-            settings.inputValues[i] = inputSelctions.GetRandNumber(0, 25);
-
-            // Set the rand key based on the value
-            settings.kyes[i] = inputSelctions.GetRandInout(settings.inputValues[i]);
-        }
-
-        // Set the displyed input
-        displayedInput.SetImage(settings.inputValues[inputIndex]);
+        RandmiseInputs();
+        
 
         // Set pos des
-        displayedInput.SetPosShift(new Vector3(67 / 2, 90, 0));
-
+        displayedInput.SetPosShift(new Vector3(0, 2.5f, 0));
+        
+        
         // Display ready 
         gettingReadyTimer.timerToStopAt = 0.8f;
 
@@ -107,10 +105,7 @@ public class MainUpdate : MonoBehaviour
         objectToDodge.speed = settings.dodgableObjectsSpeed;
 
         //practice = gameDataControl.GetNeedToPractice();
-
-        playGame = true;
-
-        readyingAnouncment = true;
+        
 
 
         // Set scale to anaime at
@@ -118,12 +113,11 @@ public class MainUpdate : MonoBehaviour
 
         // Set Go text
         moveGoText.SetMinMaxScales(settings.gotextScalMinMax.x, settings.gotextScalMinMax.y);
-
-        // Start getting ready timer
-        gettingReadyTimer.StartTimer();
+        
+        uIControler.ActivateStart();
     }
 
-    void Update()
+    private void Update()
     {
         // playing game
         if (playGame)
@@ -236,15 +230,21 @@ public class MainUpdate : MonoBehaviour
                             uIControler.DeActivateAnoucments();
 
                             readyingAnouncment = false;
-
-
+                            
+                            
+                            // Input counter
+                            uIControler.ActivateInputCounter();
+                            
+                            // Set the input counter text
+                            uIControler.SetInputCounterText(inputIndex + 1);
+                            
+                            
                             // Start the game wait time
                             waitToStartTimer.StartTimer();
                         }
                     }
                 }
                 
-
                 // Reading has stoped
                 else
                 {
@@ -278,34 +278,21 @@ public class MainUpdate : MonoBehaviour
                             {
                                 inputTimer.UpdateTimer();
 
+                                var check = false;
+                                
                                 // If inputed 
                                 if (Input.GetKeyDown(settings.kyes[inputIndex]))
                                 {
                                     // Store data — the input time
                                     timesStored[inputIndex] = inputTimer.GetCurrentTime();
-                                    // Temp storage
-
-                                    // UI set score
-                                    uIControler.SetJustGotScoreText(inputIndex, timesStored[inputIndex]);
-
-
-                                    inputTimer.ResetTimer();
-
-                                    // Decativate displayyed input
-                                    displayedInput.DeactivateObject();
-
+                                    
                                     // Set the speed ups
                                     objectToDodge.speed = settings.objectsFastSpeed;
                                     settings.groundMoveSpeed = settings.objectsFastSpeed;
 
                                     inputed = true;
 
-                                    // Increase input index
-                                    inputIndex++;
-
-                                    interactable = false;
-
-                                    performence = true;
+                                    check = true;
                                 }
 
                                 // Not inputed
@@ -314,26 +301,31 @@ public class MainUpdate : MonoBehaviour
                                     // Input timer reached end
                                     if (inputTimer.TimerReachedEnd())
                                     {
-                                        inputTimer.ResetTimer();
-
-                                        // Set the UI score
-                                        uIControler.SetJustGotScoreText(inputIndex, timesStored[inputIndex]);
-
-                                        // Increase input index
-                                        inputIndex++;
-
-                                        // Decativate displayyed input
-                                        displayedInput.DeactivateObject();
-
+                                        timesStored[inputIndex] = inputTimer.GetCurrentTime();
+                                        
                                         // Geting hit
                                         playerAcations.ActivateGotHit();
 
                                         acations = true;
 
-                                        interactable = false;
-
-                                        performence = true;
+                                        // Checked
+                                        check = true;
                                     }
+                                }
+
+                                // Check 
+                                if (check)
+                                {
+                                    inputTimer.ResetTimer();
+
+                                    inputIndex++;
+                                    
+                                    // Decativate displayyed input
+                                    displayedInput.DeactivateObject();
+                                    
+                                    interactable = false;
+
+                                    performence = true;
                                 }
 
                                 // If input reached last one 
@@ -343,29 +335,72 @@ public class MainUpdate : MonoBehaviour
 
                                     inputIndex = 0;
 
-                                    // if not stored permant
+                                    float avrageStored = 0;
+                                    
+                                    // Store chnagable storage
+                                    for (var i = 0; i < timesStored.Length; i++)
+                                    {
+                                        // Get avrage
+                                        avrageStored += timesStored[i];
+
+                                        gameDataControl.StoreChangeableReults(i, timesStored[i]); // Changimng data
+                                        
+                                        // Set the score chnage texts
+                                        uIControler.SetChnageScoresText(i, timesStored[i]);
+                                    }
+                                    
+                                    avrageStored = avrageStored / timesStored.Length;
+
+
+                                    var newHighScore = false;
+                                    
+                                    // If first time colecting
                                     if (!gameDataControl.GetPermanentDataStored())
                                     {
-                                        for (int i = 0; i < timesStored.Length; i++)
-                                        {
-                                            // storeing the permant data
-                                            gameDataControl.StorePermanentReults(i, timesStored[i]);
-
-                                            uIControler.SetSentScoreData(i, timesStored[inputIndex]);
-                                        }
-
-                                        // Permant storage stored
-                                        gameDataControl.SetPermanentDataStorage(true);
+                                        newHighScore = true;
                                     }
-
-                                    // Store chnagable storage
                                     else
                                     {
-                                        for (int i = 0; i < timesStored.Length; i++)
+                                        // If new score low score
+                                        if (gameDataControl.GetChangeableAvrage() > avrageStored)
                                         {
-                                            // storeing the Changimng data
-                                            gameDataControl.StoreChangeableReults(i, timesStored[i]);
+                                            newHighScore = true;
+
+                                            // Global show new score
+                                            showNewScoreText = true;
                                         }
+                                    }
+
+                                    if (newHighScore)
+                                    {
+                                        // Store game data - chnage Avrage
+                                        gameDataControl.StoreChangeableAvrage(avrageStored);
+                                    }
+
+                                    // Chnage score - avrage
+                                    uIControler.SetChangeScoreAvrageText(avrageStored);
+
+                                    // Permanent data - Not stored
+                                    if (!gameDataControl.GetPermanentDataStored())
+                                    {
+                                        for (var i = 0; i < timesStored.Length; i++)
+                                        {
+                                            // storeing the permant data results
+                                            gameDataControl.StorePermanentReults(i, timesStored[i]);
+
+                                            // Set the Diplay scores text
+                                            uIControler.SetPermanentScoresText(i, timesStored[i]);
+                                        }
+
+                                        // Save data
+                                        gameDataControl.StorePermanentAvrage(avrageStored);     // Permnet
+                                        
+                                        // Permant storage stored
+                                        gameDataControl.SetPermanentDataStorage(true);
+                                        
+                                        
+                                        // UI - Perment results avrage
+                                        uIControler.SetPermanentScoreAvrageText(avrageStored);
                                     }
 
                                     // Save data
@@ -390,7 +425,7 @@ public class MainUpdate : MonoBehaviour
                                 inputed = false;
 
                                 acations = true;
-                                doged = true;
+                                dodged = true;
 
                                 // Set the speed back to normal
                                 objectToDodge.speed = settings.dodgableObjectsSpeed;
@@ -410,14 +445,14 @@ public class MainUpdate : MonoBehaviour
                     // Actions need to happen
                     if (acations)
                     {
-                        bool check = false;
+                        var check = false;
 
                         // Doged the object
-                        if (doged)
+                        if (dodged)
                         {
                             if (!playerAcations.GetIfStillJumping())
                             {
-                                doged = false;
+                                dodged = false;
 
                                 check = true;
                             }
@@ -444,12 +479,39 @@ public class MainUpdate : MonoBehaviour
                             if (!fishedCollcting)
                             {
                                 waitToStartTimer.StartTimer();
+                                
+                                // Set the input counter text
+                                uIControler.SetInputCounterText(inputIndex + 1);
                             }
 
                             // Fished collection
                             else
                             {
-                                uIControler.ActivateScoreDisplay();
+                                // Show new scores
+                                if (showNewScoreText)
+                                {
+                                    // Actiave new high score
+                                    uIControler.ActivateNewHighScore();
+                                    
+                                    newHiScore.timer.StartTimer();
+                                }
+                                
+                                
+                                // Pause button in playing game - OFF
+                                uIControler.DeActivatePauseButton();
+                                
+                                // Input counter - OFF
+                                uIControler.DeActivateInputCounter();
+                                
+
+                                // Scores
+                                uIControler.ActivateScoresDisplay();
+                                
+                                // scores Results - ON
+                                uIControler.ActivateScoresInResults();
+        
+                                // scores Menu - OFF
+                                uIControler.DeActivateScoresInMenu();
 
                                 // Fished game
                                 playGame = false;
@@ -462,6 +524,58 @@ public class MainUpdate : MonoBehaviour
             }
         }
 
+        // If in mid acation
+        if (extendAcations)
+        {
+            var check = false;
+            
+            // Doged the object
+            if (dodged)
+            {
+                if (!playerAcations.GetIfStillJumping())
+                {
+                    dodged = false;
+
+                    check = true;
+                }
+            }
+            // Hit the object
+            else
+            {
+                playerAcations.UpdateGotHit();
+
+                if (!playerAcations.GetStillHiting())
+                {
+                    check = true;
+                }
+            }
+            
+            // Dodgable object
+            if (objectToDodge.GetObjectActive())
+            {
+                // Update the dodge object
+                objectToDodge.UpdateObject();
+            }
+            
+
+            if (check)
+            {
+                extendAcations = false;
+                
+                // Start menu - actiave
+                uIControler.ActivateStart();
+            }
+        }
+
+        
+        // If new high score ON
+        if (uIControler.GetNewHighScore())
+        {
+            // Update
+            newHiScore.UpdateNewHighScore();
+        }
+        
+        
         // Inputs
 
         // Esc
@@ -471,53 +585,313 @@ public class MainUpdate : MonoBehaviour
         }
     }
 
+    
+    // Quit aplaication
+    private void OnApplicationQuit()
+    {
+        // Temp
+        gameDataSaveLoad.Delete();
+        
+        showNewScoreText = false;
+    }
 
+    
+    
+    // Extra functions
+    
+    private void RandmiseInputs()
+    {
+        for (var i = 0; i < settings.kyes.Length; i++)
+        {
+            // Get the rand value
+            settings.inputValues[i] = inputSelctions.GetRandNumber(0, 25);
 
+            // Set the rand key based on the value
+            settings.kyes[i] = inputSelctions.GetRandInout(settings.inputValues[i]);
+        }
+
+        // Set the displyed input
+        displayedInput.SetImage(settings.inputValues[inputIndex]);
+    }
+
+    private void ResetTempScores()
+    {
+        // Store data — the input time
+        for (var i = 0; i < timesStored.Length; i++)
+        {
+            timesStored[i] = 0;
+
+            // UI set score
+            uIControler.SetChnageScoresText(i, timesStored[i]);   
+        }
+    }
+
+    private void ScoresStateReste()
+    {
+        uIControler.DeActivateScoresDisplay();
+
+        // New high score ON
+        if (uIControler.GetNewHighScore())
+        {
+            // Deacativate New high score
+            newHiScore.ResetNewHighScore();
+        }
+        
+        // Retun back to orignal score setup
+        if (uIControler.GetPermanenttScores())
+        {
+            // Turn ON the chnage scores
+            uIControler.ActivateChnageScores();
+
+            // Turn OFF perment results
+            uIControler.DeActivatePermanenttScores();
+        }   
+    }
+    
+    
     // UI buttons
 
+    public void DisplayScoresMenu()
+    { 
+        for (var i = 0; i < timesStored.Length; i++)
+        {
+            // Changable storage 
+            uIControler.SetChnageScoresText(i, gameDataControl.GetChangeableReults(i));
+            
+            // Avrage - Changable
+            uIControler.SetChangeScoreAvrageText(gameDataControl.GetChangeableAvrage());
+            
+            // Permanate storage
+            uIControler.SetPermanentScoresText(i, gameDataControl.GetPermanentReults(i));
+            
+            // Avrage - Permanate
+            uIControler.SetPermanentScoreAvrageText(gameDataControl.GetPermanentAvrage());
+        }
+        
+        // scores Results - OFF
+        uIControler.DeActivateScoresInResults();
+        
+        // scores Menu - ON
+        uIControler.ActivateScoresInMenu();
+    }
+
+    public void DisplayNewHighScore()
+    {
+        if (uIControler.GetChnageScores())
+        {
+            // Turn OFF chnage scores
+            uIControler.DeActivateChnageScores();
+
+            // Turn ON permant scores
+            uIControler.ActivatePermanenttScores();
+
+            if (showNewScoreText)
+            {
+                // New high score - Reset
+                newHiScore.ResetNewHighScore();   
+            }
+        }
+        else if (uIControler.GetPermanenttScores())
+        {
+            // Turn ON chnage scores
+            uIControler.ActivateChnageScores();
+
+            // Turn OFF permant scores
+            uIControler.DeActivatePermanenttScores();
+
+            if (showNewScoreText)
+            {
+                // New high score - ON
+                uIControler.ActivateNewHighScore();
+            
+                // Start timer 
+                newHiScore.timer.StartTimer();
+            }
+        }
+    }
+    
+    
     public void StartPlaying()
     {
         uIControler.DeActivateStart();
 
-        waitToStartTimer.StartTimer();
+        // Reading the anouncements
+        readyingAnouncment = true;
 
+        // Start getting ready timer
+        gettingReadyTimer.StartTimer();
+        
+        
+        // Pause button in playing game - ON
+        uIControler.ActivatePauseButton();
+        
+        
+        // play active
         playGame = true;
-
     }
 
-    [SerializeField]
+    public void Menu()
+    {
+        if (playGame)
+        {
+            // If in readying game
+            if (readyingAnouncment)
+            {
+                // If gettingready timer is ON
+                if (!gettingReadyTimer.GetTimerStillOn())
+                {
+                    // Ready text is ON 
+                    if (uIControler.GetReadyText())
+                    {
+                        // reset
+                        moveReadyText.ResetText();
+                    }
+
+                    // Go text is ON
+                    if (uIControler.GetGoText())
+                    {
+                        // reset
+                        moveGoText.ResetText();
+                    }
+
+                    // Turn OFF Anoincemnts
+                    uIControler.DeActivateAnoucments();
+                }
+                
+                gettingReadyTimer.ResetTimer();
+
+                uIControler.ActivateStart();
+            }
+
+            // In game
+            else
+            {
+                // If timer is on
+                if (waitToStartTimer.GetTimerStillOn())
+                {
+                    waitToStartTimer.ResetTimer();
+                }
+
+                // Not doing an acation 
+                if (!acations)
+                {
+                    // Set the speed back to normal
+                    objectToDodge.speed = settings.dodgableObjectsSpeed;
+                    settings.groundMoveSpeed = settings.dodgableObjectsSpeed;
+
+                    // Reset dodge object
+                    objectToDodge.ResetObject();
+
+                    // Decativate displayyed input
+                    displayedInput.DeactivateObject();
+
+                    // Start menu - actiave
+                    uIControler.ActivateStart();
+                }
+
+                // Acations
+                else
+                {
+                    if (dodged)
+                    {
+                        playerAcations.GETHitRoataing().bodyType = RigidbodyType2D.Dynamic;
+                    }
+                    
+                    // Continue acation;
+                    extendAcations = true;
+                }
+
+                // Input counter - OFF
+                uIControler.DeActivateInputCounter();
+                
+                
+                // Input timer
+                inputTimer.ResetTimer();
+                
+                // Reset the temp score values
+                ResetTempScores();
+            }
+
+            // Pause button in playing game - OFF
+            uIControler.DeActivatePauseButton();
+
+            
+            // Increase input index
+            inputIndex = 0;
+            
+            acations = false;
+
+            fishedCollcting = false;
+
+            
+            inputed = false;
+            
+            paused = false;
+            
+            // play all ground to move
+            settings.stopMovingGround = false;
+            
+            
+            readyingAnouncment = false;
+            
+            interactable = false;
+
+            performence = false;
+
+            playGame = false;
+            
+            
+            // Deacativate pause
+            uIControler.DeActivatePause();
+        }
+        
+        // Results state
+        else
+        {
+            showNewScoreText = false;
+
+            // Reset scores screen
+            ScoresStateReste();
+            
+            // Start screen
+            uIControler.ActivateStart();
+        }
+
+        // Randmise input
+        RandmiseInputs();
+    }
+
     public void PlayAgian()
     {
         // Start getting ready timer
         gettingReadyTimer.StartTimer();
 
         readyingAnouncment = true;
-
-
+        
         playGame = true;
 
-        uIControler.DeActivateScoreDisplay();
+        showNewScoreText = false;
+        
+        
+        // Pause button in playing game - ON
+        uIControler.ActivatePauseButton();
 
-        // Retun back to orignal score setup
-        if (uIControler.GetSendtScores())
-        {
-            // Turn ON the just got resulst 
-            uIControler.ActivateSentResultsButton();
-            uIControler.ActivateJustGotScores();
-
-            // Turn OFF Sent results
-            uIControler.DeActivateBackResultsButton();
-            uIControler.DeActivateSendtScores();
-        }
+        // Randmise input
+        RandmiseInputs();
+        
+        // Reset the temp score values
+        ResetTempScores();
+        
+        // Puts back the score stae the way it was & deacativate it
+        ScoresStateReste();
     }
 
-    [SerializeField]
     public void PauseResume()
     {
         // In menu & in scores
         if (!playGame)
         {
-            // Quit
+            // Quit 
             if (!uIControler.GetQuit())
             {
                 uIControler.ActivateQuit();
@@ -539,6 +913,11 @@ public class MainUpdate : MonoBehaviour
                 // Stop all ground from moving
                 settings.stopMovingGround = true;
 
+                if (dodged)
+                {
+                    playerAcations.GETHitRoataing().bodyType = RigidbodyType2D.Static;
+                }
+                
                 uIControler.ActivatePause();
             }
 
@@ -550,16 +929,24 @@ public class MainUpdate : MonoBehaviour
                 // play all ground to move
                 settings.stopMovingGround = false;
 
+                if (dodged)
+                {
+                    playerAcations.GETHitRoataing().bodyType = RigidbodyType2D.Dynamic;
+                }
+                
                 uIControler.DeActivatePause();
             }
         }
     }
 
-    [SerializeField]
     public void QuitGame()
     {
         // Temp
         gameDataSaveLoad.Delete();
+        
+        Debug.Log("On quit");
+        
+        showNewScoreText = false;
 
         // Not Playing game
         if (!playGame)

@@ -9,7 +9,7 @@ public class UIButtonControl : MonoBehaviour
     private MainUpdate mainUpdate;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         uiControler = GetComponent<UIControler>();
         mainUpdate = FindObjectOfType<MainUpdate>();
@@ -21,29 +21,49 @@ public class UIButtonControl : MonoBehaviour
         mainUpdate.StartPlaying();
     }
 
-    // Sent results
-    public void SwitchResultDisplaysButton()
+    // Scores
+    public void SwitchLookAtScoresMenuButton()
     {
-        if(uiControler.GetJustGotScores())
+        // Start menu
+        if (!uiControler.GetScoresDisplay())
         {
-            // Turn OFF the just got resulst 
-            uiControler.DeActivateSentResultsButton();
-            uiControler.DeActivateJustGotScores();
-
-            // Turn ON Sent results
-            uiControler.ActivateBackResultsButton();
-            uiControler.ActivateSendtScores();
+            // Start - OFF
+            uiControler.DeActivateStart();
+            
+            // Scores display - ON
+            uiControler.ActivateScoresDisplay();
+            
+            mainUpdate.DisplayScoresMenu();
         }
-        else if(uiControler.GetSendtScores())
+        
+        // Scores display
+        else
         {
-            // Turn ON the just got resulst 
-            uiControler.ActivateSentResultsButton();
-            uiControler.ActivateJustGotScores();
-
-            // Turn OFF Sent results
-            uiControler.DeActivateBackResultsButton();
-            uiControler.DeActivateSendtScores();
+            // If looing at permant scores
+            if (uiControler.GetPermanenttScores())
+            {
+                uiControler.DeActivatePermanenttScores();
+                
+                uiControler.ActivateChnageScores();
+            }
+            
+            // Start - ON
+            uiControler.ActivateStart();
+            
+            // Scores display - OFF
+            uiControler.DeActivateScoresDisplay();
         }
+    }
+
+    public void MenuButton()
+    {
+        mainUpdate.Menu();
+    }
+
+    // Sent results
+    public void SwitchResultDisplaysButton() 
+    {
+        mainUpdate.DisplayNewHighScore();
     }
 
 
@@ -54,7 +74,7 @@ public class UIButtonControl : MonoBehaviour
     }
 
     // Resume game
-    public void ResumeGameButton()
+    public void PauseResumeGameButton()
     {
         mainUpdate.PauseResume();
     }

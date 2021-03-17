@@ -5,26 +5,24 @@ using UnityEngine.UI;
 
 public class DisplayedInput : MonoBehaviour
 {
-    public Camera cam;
-
-    private Vector3 posShift = Vector3.zero;
-
+    private Vector3 shiftPosAdd = Vector3.zero;
+    
+    
+    public SpriteRenderer inputText;
+    
     public Settings settings;
 
     // Move
-    public void Move(Vector3 target)
+    // ReSharper disable Unity.PerformanceAnalysis
+    public void Move(Vector3 pos)
     {
-        Vector3 screenPos = cam.WorldToScreenPoint(target);
-
-        Vector3 setPos = new Vector3(screenPos.x + posShift.x, screenPos.y + posShift.y, screenPos.z + posShift.z);
-
-        transform.position = setPos;
+        transform.position = pos + shiftPosAdd;
     }
     
     // Set the pos where the shift placment
     public void SetPosShift(Vector3 setShift)
     {
-        posShift = setShift;
+        shiftPosAdd = setShift;
     }
 
     // Activate object
@@ -47,9 +45,10 @@ public class DisplayedInput : MonoBehaviour
 
 
     // setters
+    // ReSharper disable Unity.PerformanceAnalysis
     public void SetImage(int index)
     {
-        GetComponent<Image>().sprite = settings.imputImages[index];
+        inputText.sprite = settings.imputImages[index];
     }
 
     public Vector3 GetPos()
