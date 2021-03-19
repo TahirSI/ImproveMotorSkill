@@ -9,9 +9,12 @@ public class MainUpdate : MonoBehaviour
     // Private
     private bool fishedCollcting;
 
-    //private bool practice = false;
-    //private bool showIntroCards = false;
+    private bool practice;
+    private bool showIntroCards;
+    private bool explaneGameInfoCards;
 
+    private int introCardIndex;
+    
     private bool readyingAnouncment;
     private bool playGame;
     private bool paused;
@@ -74,7 +77,11 @@ public class MainUpdate : MonoBehaviour
 
         // Get the randome keys
         RandmiseInputs();
+
+        // Get the practice input
+        RandmisePractInput();
         
+
 
         // Set pos des
         displayedInput.SetPosShift(new Vector3(0, 2.5f, 0));
@@ -104,8 +111,19 @@ public class MainUpdate : MonoBehaviour
         // Set the dogable obejct speed
         objectToDodge.speed = settings.dodgableObjectsSpeed;
 
-        //practice = gameDataControl.GetNeedToPractice();
         
+        // Practicing sestion
+        practice = !gameDataControl.GetPracticedGame();
+        
+        if (practice)
+        {
+            // Show the strt cards
+            showIntroCards = true;
+            
+            explaneGameInfoCards = true;
+            
+            uIControler.ActivateIntroCrads(introCardIndex);
+        }
 
 
         // Set scale to anaime at
@@ -125,404 +143,514 @@ public class MainUpdate : MonoBehaviour
             // Not paused
             if (!paused)
             {
-
-                if (readyingAnouncment)
+                // Show the startinhg cards 
+                if (showIntroCards)
                 {
-                    if(gettingReadyTimer.GetTimerStillOn())
+                    if (explaneGameInfoCards)
                     {
-                        // Update timer
-                        gettingReadyTimer.UpdateTimer();
-
-                        if(!gettingReadyTimer.GetTimerStillOn())
+                        // Reached the fisrt info card section
+                        if (introCardIndex > 7)
                         {
-                            // Anouncements - Active
-                            uIControler.ActivateAnoucments();
-
-                            // Ready text
-                            uIControler.ActivateReadyText();
-
-                            // Set ready speed
-                            moveReadyText.SetScaleSpeed(settings.readyTextScaleSpeed.x);
-
-                            // Set Ready fade speed
-                            moveReadyText.SetFadeSpedd(settings.readyTextFadeSpeed.x);
-                        }
-                    }
-                    else
-                    {
-                        // Ready text is ON 
-                        if (uIControler.GetReadyText())
-                        {
-                            // Last scale
-                            if(moveReadyText.GetCurrentScale().x >=
-                                moveReadyText.GetMidScaleDis())
-                            {
-                                // Set ready speed
-                                moveReadyText.SetScaleSpeed(settings.readyTextScaleSpeed.z);
-
-                                // Set Ready fade speed
-                                moveReadyText.SetFadeSpedd(settings.readyTextFadeSpeed.y);
-                            }
-
-                            // Mid scale
-                            else if (moveReadyText.GetCurrentScale().x >=
-                                moveReadyText.GetStartScaleDis())
-                            {
-                                // Set ready scale speed
-                                moveReadyText.SetScaleSpeed(settings.readyTextScaleSpeed.y);
-                            }
-
-
-                            // Update ready text
-                            moveReadyText.UpdateText();
-
-
-                            // Go text
-                            if (!uIControler.GetGoText() &&
-                                moveReadyText.GetCurrentScale().x >=
-                                moveReadyText.GetMidScaleDis())
-                            {
-
-                                uIControler.ActivateGoText();
-
-                                // Set Go scale speed
-                                moveGoText.SetScaleSpeed(settings.goTextScaleSpeed.x);
-
-                                // Set Go fade speed
-                                moveGoText.SetFadeSpedd(settings.goTextFadeSpeed.x);
-                            }
-
-                        }
-
-                        // If Go text is ON
-                        if (uIControler.GetGoText())
-                        {
-                            // Last scake
-                            if (moveGoText.GetCurrentScale().x <=
-                                moveGoText.GetMidScaleDis())
-                            {
-                                // Set ready speed
-                                moveGoText.SetScaleSpeed(settings.goTextScaleSpeed.z);
-
-                                // Set Go fade speed
-                                moveGoText.SetFadeSpedd(settings.goTextFadeSpeed.y);
-                            }
-
-                            // Mid scale
-                            else if (moveGoText.GetCurrentScale().x <=
-                                moveGoText.GetStartScaleDis())
-                            {
-                                // Set ready speed
-                                moveGoText.SetScaleSpeed(settings.goTextScaleSpeed.y);
-                            }
-
-
-                            // Update go text
-                            moveGoText.UpdateText();
-                        }
-
-                        // Timer readyingAnouncment
-                        if (!uIControler.GetReadyText() &&
-                            !uIControler.GetGoText())
-                        {
-                            gettingReadyTimer.ResetTimer();
-
-                            uIControler.DeActivateAnoucments();
-
-                            readyingAnouncment = false;
+                            explaneGameInfoCards = false;
+                            showIntroCards = false;
                             
+                            // Decativate left & right arrows
+                            uIControler.DeActivateIntroCardsLeftArrowButton();
+                            uIControler.DeActivateIntroCardsRightArrowButton();
+        
+                            // Actiave practice start button
+                            uIControler.ActivateIntroCardsStartButton();
                             
-                            // Input counter
-                            uIControler.ActivateInputCounter();
-                            
-                            // Set the input counter text
-                            uIControler.SetInputCounterText(inputIndex + 1);
-                            
-                            
-                            // Start the game wait time
-                            waitToStartTimer.StartTimer();
-                        }
+                            // Intro card holder
+                            uIControler.DeActivateIntroCradsHolder();
+                        }   
                     }
                 }
-                
-                // Reading has stoped
                 else
                 {
-                    // Speed up update
-                    if (!performence)
+                    if (readyingAnouncment)
                     {
-                        // Waiting to start the next interaction
-                        if (!interactable)
+                        if (gettingReadyTimer.GetTimerStillOn())
                         {
-                            waitToStartTimer.UpdateTimer();
+                            // Update timer
+                            gettingReadyTimer.UpdateTimer();
 
-                            // Timer ended
-                            if (!waitToStartTimer.GetTimerStillOn())
+                            if (!gettingReadyTimer.GetTimerStillOn())
                             {
-                                waitToStartTimer.ResetTimer();
-                                inputTimer.StartTimer();
+                                // Anouncements - Active
+                                uIControler.ActivateAnoucments();
 
-                                interactable = true;
+                                // Ready text
+                                uIControler.ActivateReadyText();
 
-                                objectToDodge.ActivateObject();
+                                // Set ready speed
+                                moveReadyText.SetScaleSpeed(settings.readyTextScaleSpeed.x);
 
-                                // Set the disply input
-                                displayedInput.SetImage(settings.inputValues[inputIndex]);
-
-                                displayedInput.ActivateObject();
+                                // Set Ready fade speed
+                                moveReadyText.SetFadeSpedd(settings.readyTextFadeSpeed.x);
                             }
                         }
                         else
                         {
-                            if (inputTimer.GetTimerStillOn())
+                            // Ready text is ON 
+                            if (uIControler.GetReadyText())
                             {
-                                inputTimer.UpdateTimer();
+                                // Last scale
+                                if (moveReadyText.GetCurrentScale().x >=
+                                    moveReadyText.GetMidScaleDis())
+                                {
+                                    // Set ready speed
+                                    moveReadyText.SetScaleSpeed(settings.readyTextScaleSpeed.z);
 
-                                var check = false;
+                                    // Set Ready fade speed
+                                    moveReadyText.SetFadeSpedd(settings.readyTextFadeSpeed.y);
+                                }
+
+                                // Mid scale
+                                else if (moveReadyText.GetCurrentScale().x >=
+                                         moveReadyText.GetStartScaleDis())
+                                {
+                                    // Set ready scale speed
+                                    moveReadyText.SetScaleSpeed(settings.readyTextScaleSpeed.y);
+                                }
+
+
+                                // Update ready text
+                                moveReadyText.UpdateText();
+
+
+                                // Go text
+                                if (!uIControler.GetGoText() &&
+                                    moveReadyText.GetCurrentScale().x >=
+                                    moveReadyText.GetMidScaleDis())
+                                {
+
+                                    uIControler.ActivateGoText();
+
+                                    // Set Go scale speed
+                                    moveGoText.SetScaleSpeed(settings.goTextScaleSpeed.x);
+
+                                    // Set Go fade speed
+                                    moveGoText.SetFadeSpedd(settings.goTextFadeSpeed.x);
+                                }
+
+                            }
+
+                            // If Go text is ON
+                            if (uIControler.GetGoText())
+                            {
+                                // Last scake
+                                if (moveGoText.GetCurrentScale().x <=
+                                    moveGoText.GetMidScaleDis())
+                                {
+                                    // Set ready speed
+                                    moveGoText.SetScaleSpeed(settings.goTextScaleSpeed.z);
+
+                                    // Set Go fade speed
+                                    moveGoText.SetFadeSpedd(settings.goTextFadeSpeed.y);
+                                }
+
+                                // Mid scale
+                                else if (moveGoText.GetCurrentScale().x <=
+                                         moveGoText.GetStartScaleDis())
+                                {
+                                    // Set ready speed
+                                    moveGoText.SetScaleSpeed(settings.goTextScaleSpeed.y);
+                                }
+
+
+                                // Update go text
+                                moveGoText.UpdateText();
+                            }
+
+                            // Timer readyingAnouncment
+                            if (!uIControler.GetReadyText() &&
+                                !uIControler.GetGoText())
+                            {
+                                gettingReadyTimer.ResetTimer();
+
+                                uIControler.DeActivateAnoucments();
+
+                                readyingAnouncment = false;
+
+
+                                // Practcing - OFF
+                                if (!practice)
+                                {
+                                    // Input counter
+                                    uIControler.ActivateInputCounter();
+
+                                    // Set the input counter text
+                                    uIControler.SetInputCounterText(inputIndex + 1);
+                                }
                                 
-                                // If inputed 
-                                if (Input.GetKeyDown(settings.kyes[inputIndex]))
+                                
+                                // Start the game wait time
+                                waitToStartTimer.StartTimer();
+                            }
+                        }
+                    }
+
+                    // Reading has stoped
+                    else
+                    {
+                        // Speed up update
+                        if (!performence)
+                        {
+                            // Waiting to start the next interaction
+                            if (!interactable)
+                            {
+                                waitToStartTimer.UpdateTimer();
+
+                                // Timer ended
+                                if (!waitToStartTimer.GetTimerStillOn())
                                 {
-                                    // Store data — the input time
-                                    timesStored[inputIndex] = inputTimer.GetCurrentTime();
-                                    
-                                    // Set the speed ups
-                                    objectToDodge.speed = settings.objectsFastSpeed;
-                                    settings.groundMoveSpeed = settings.objectsFastSpeed;
+                                    waitToStartTimer.ResetTimer();
+                                    inputTimer.StartTimer();
 
-                                    inputed = true;
+                                    interactable = true;
 
-                                    check = true;
-                                }
+                                    objectToDodge.ActivateObject();
 
-                                // Not inputed
-                                if (!inputed)
-                                {
-                                    // Input timer reached end
-                                    if (inputTimer.TimerReachedEnd())
+
+                                    if (!practice)
                                     {
-                                        timesStored[inputIndex] = inputTimer.GetCurrentTime();
-                                        
-                                        // Geting hit
-                                        playerAcations.ActivateGotHit();
-
-                                        acations = true;
-
-                                        // Checked
-                                        check = true;
-                                    }
-                                }
-
-                                // Check 
-                                if (check)
-                                {
-                                    inputTimer.ResetTimer();
-
-                                    inputIndex++;
-                                    
-                                    // Decativate displayyed input
-                                    displayedInput.DeactivateObject();
-                                    
-                                    interactable = false;
-
-                                    performence = true;
-                                }
-
-                                // If input reached last one 
-                                if (inputIndex > settings.kyes.Length - 1)
-                                {
-                                    fishedCollcting = true;
-
-                                    inputIndex = 0;
-
-                                    float avrageStored = 0;
-                                    
-                                    // Store chnagable storage
-                                    for (var i = 0; i < timesStored.Length; i++)
-                                    {
-                                        // Get avrage
-                                        avrageStored += timesStored[i];
-
-                                        gameDataControl.StoreChangeableReults(i, timesStored[i]); // Changimng data
-                                        
-                                        // Set the score chnage texts
-                                        uIControler.SetChnageScoresText(i, timesStored[i]);
+                                        // Set the disply input
+                                        displayedInput.SetImage(settings.inputValues[inputIndex]);
                                     }
                                     
-                                    avrageStored = avrageStored / timesStored.Length;
-
-
-                                    var newHighScore = false;
-                                    
-                                    // If first time colecting
-                                    if (!gameDataControl.GetPermanentDataStored())
+                                    // Practicing - ON
+                                    else
                                     {
-                                        newHighScore = true;
+                                        // Set the disply input
+                                        displayedInput.SetImage(settings.PracticeInpuValue);
+                                    }
+
+                                    displayedInput.ActivateObject();
+                                }
+                            }
+                            else
+                            {
+                                if (inputTimer.GetTimerStillOn())
+                                {
+                                    inputTimer.UpdateTimer();
+
+                                    var check = false;
+
+                                    
+                                     var setInput = KeyCode.A;
+                                    
+                                    // Practcing - ON
+                                    if (practice)
+                                    {
+                                        // Practice input
+                                        setInput = settings.PracticeKey;
                                     }
                                     else
                                     {
-                                        // If new score low score
-                                        if (gameDataControl.GetChangeableAvrage() > avrageStored)
-                                        {
-                                            newHighScore = true;
+                                        // In game inputs
+                                        setInput = settings.kyes[inputIndex];
+                                    }
+                                    
 
-                                            // Global show new score
-                                            showNewScoreText = true;
+                                    // If inputed 
+                                    if (Input.GetKeyDown(setInput))
+                                    {
+                                        // Practcing - OFF
+                                        if (!practice)
+                                        {
+                                            // Store data — the input time
+                                            timesStored[inputIndex] = inputTimer.GetCurrentTime();   
+                                        }
+
+                                        // Set the speed ups
+                                        objectToDodge.speed = settings.objectsFastSpeed;
+                                        settings.groundMoveSpeed = settings.objectsFastSpeed;
+
+                                        inputed = true;
+
+                                        check = true;
+                                    }
+
+                                    // Not inputed
+                                    if (!inputed)
+                                    {
+                                        // Input timer reached end
+                                        if (inputTimer.TimerReachedEnd())
+                                        {
+                                            // Practcing - OFF
+                                            if (!practice)
+                                            {
+                                                timesStored[inputIndex] = inputTimer.GetCurrentTime();
+                                            }
+                                            
+                                            // Geting hit
+                                            playerAcations.ActivateGotHit();
+
+                                            acations = true;
+
+                                            // Checked
+                                            check = true;
                                         }
                                     }
 
-                                    if (newHighScore)
+                                    // Check 
+                                    if (check)
                                     {
-                                        // Store game data - chnage Avrage
-                                        gameDataControl.StoreChangeableAvrage(avrageStored);
+                                        inputTimer.ResetTimer();
+
+                                        // Practcing - OFF
+                                        if (!practice)
+                                        {
+                                            inputIndex++;
+                                        }
+                                        
+                                        // Decativate displayyed input
+                                        displayedInput.DeactivateObject();
+
+                                        interactable = false;
+
+                                        performence = true;
                                     }
 
-                                    // Chnage score - avrage
-                                    uIControler.SetChangeScoreAvrageText(avrageStored);
-
-                                    // Permanent data - Not stored
-                                    if (!gameDataControl.GetPermanentDataStored())
+                                    // If input reached last one 
+                                    if (inputIndex > settings.kyes.Length - 1)
                                     {
+                                        fishedCollcting = true;
+
+                                        inputIndex = 0;
+
+                                        float avrageStored = 0;
+
+                                        // Store chnagable storage
                                         for (var i = 0; i < timesStored.Length; i++)
                                         {
-                                            // storeing the permant data results
-                                            gameDataControl.StorePermanentReults(i, timesStored[i]);
+                                            // Get avrage
+                                            avrageStored += timesStored[i];
 
-                                            // Set the Diplay scores text
-                                            uIControler.SetPermanentScoresText(i, timesStored[i]);
+                                            gameDataControl.StoreChangeableReults(i, timesStored[i]); // Changimng data
+
+                                            // Set the score chnage texts
+                                            uIControler.SetChnageScoresText(i, timesStored[i]);
+                                        }
+
+                                        avrageStored = avrageStored / timesStored.Length;
+
+
+                                        var newHighScore = false;
+
+                                        // If first time colecting
+                                        if (!gameDataControl.GetPermanentDataStored())
+                                        {
+                                            newHighScore = true;
+                                        }
+                                        else
+                                        {
+                                            // If new score low score
+                                            if (gameDataControl.GetChangeableAvrage() > avrageStored)
+                                            {
+                                                newHighScore = true;
+
+                                                // Global show new score
+                                                showNewScoreText = true;
+                                            }
+                                        }
+
+                                        if (newHighScore)
+                                        {
+                                            // Store game data - chnage Avrage
+                                            gameDataControl.StoreChangeableAvrage(avrageStored);
+                                        }
+
+                                        // Chnage score - avrage
+                                        uIControler.SetChangeScoreAvrageText(avrageStored);
+
+                                        // Permanent data - Not stored
+                                        if (!gameDataControl.GetPermanentDataStored())
+                                        {
+                                            for (var i = 0; i < timesStored.Length; i++)
+                                            {
+                                                // storeing the permant data results
+                                                gameDataControl.StorePermanentReults(i, timesStored[i]);
+
+                                                // Set the Diplay scores text
+                                                uIControler.SetPermanentScoresText(i, timesStored[i]);
+                                            }
+
+                                            // Save data
+                                            gameDataControl.StorePermanentAvrage(avrageStored); // Permnet
+
+                                            // Permant storage stored
+                                            gameDataControl.SetPermanentDataStorage(true);
+
+
+                                            // UI - Perment results avrage
+                                            uIControler.SetPermanentScoreAvrageText(avrageStored);
                                         }
 
                                         // Save data
-                                        gameDataControl.StorePermanentAvrage(avrageStored);     // Permnet
-                                        
-                                        // Permant storage stored
-                                        gameDataControl.SetPermanentDataStorage(true);
-                                        
-                                        
-                                        // UI - Perment results avrage
-                                        uIControler.SetPermanentScoreAvrageText(avrageStored);
+                                        gameDataSaveLoad.SaveData();
                                     }
-
-                                    // Save data
-                                    gameDataSaveLoad.SaveData();
                                 }
                             }
                         }
-                    }
 
-                    // Dodgable object
-                    if (objectToDodge.GetObjectActive())
-                    {
-                        // Update the dodge object
-                        objectToDodge.UpdateObject();
-
-                        // If inputed
-                        if (inputed)
+                        // Dodgable object
+                        if (objectToDodge.GetObjectActive())
                         {
-                            if (objectToDodge.GetObjectPos().x < 4)
+                            // Update the dodge object
+                            objectToDodge.UpdateObject();
+
+                            // If inputed
+                            if (inputed)
                             {
-                                // Inputed back to false
-                                inputed = false;
+                                if (objectToDodge.GetObjectPos().x < 4)
+                                {
+                                    // Inputed back to false
+                                    inputed = false;
 
-                                acations = true;
-                                dodged = true;
+                                    acations = true;
+                                    dodged = true;
 
-                                // Set the speed back to normal
-                                objectToDodge.speed = settings.dodgableObjectsSpeed;
-                                settings.groundMoveSpeed = settings.dodgableObjectsSpeed;
+                                    // Set the speed back to normal
+                                    objectToDodge.speed = settings.dodgableObjectsSpeed;
+                                    settings.groundMoveSpeed = settings.dodgableObjectsSpeed;
 
-                                playerAcations.ActivateJump();
-                            }
-                        }
-                    }
-
-                    // Displyed input
-                    if (displayedInput.GetAcativeObject())
-                    {
-                        displayedInput.Move(objectToDodge.GetObjectPos());
-                    }
-
-                    // Actions need to happen
-                    if (acations)
-                    {
-                        var check = false;
-
-                        // Doged the object
-                        if (dodged)
-                        {
-                            if (!playerAcations.GetIfStillJumping())
-                            {
-                                dodged = false;
-
-                                check = true;
-                            }
-                        }
-                        // Hit the object
-                        else
-                        {
-                            playerAcations.UpdateGotHit();
-
-                            if (!playerAcations.GetStillHiting())
-                            {
-                                check = true;
+                                    playerAcations.ActivateJump();
+                                }
                             }
                         }
 
-                        // Fished acation
-                        if (check)
+                        // Displyed input
+                        if (displayedInput.GetAcativeObject())
                         {
-                            acations = false;
+                            displayedInput.Move(objectToDodge.GetObjectPos());
+                        }
 
-                            performence = false;
+                        // Actions need to happen
+                        if (acations)
+                        {
+                            var check = false;
 
-                            // Not coled all results
-                            if (!fishedCollcting)
+                            // Doged the object
+                            if (dodged)
                             {
-                                waitToStartTimer.StartTimer();
-                                
-                                // Set the input counter text
-                                uIControler.SetInputCounterText(inputIndex + 1);
-                            }
+                                if (!playerAcations.GetIfStillJumping())
+                                {
+                                    dodged = false;
 
-                            // Fished collection
+                                    check = true;
+                                }
+                            }
+                            // Hit the object
                             else
                             {
-                                // Show new scores
-                                if (showNewScoreText)
+                                playerAcations.UpdateGotHit();
+
+                                if (!playerAcations.GetStillHiting())
                                 {
-                                    // Actiave new high score
-                                    uIControler.ActivateNewHighScore();
-                                    
-                                    newHiScore.timer.StartTimer();
+                                    check = true;
+                                }
+                            }
+
+                            // Fished acation
+                            if (check)
+                            {
+                                acations = false;
+
+                                performence = false;
+
+                                
+                                // In game - results collceting
+                                if (!practice)
+                                {
+                                    // Not coled all results
+                                    if (!fishedCollcting)
+                                    {
+                                        waitToStartTimer.StartTimer();
+
+                                        // Set the input counter text
+                                        uIControler.SetInputCounterText(inputIndex + 1);
+                                        
+                                    }
+
+                                    // Fished collection
+                                    else
+                                    {
+                                        // Show new scores
+                                        if (showNewScoreText)
+                                        {
+                                            // Actiave new high score
+                                            uIControler.ActivateNewHighScore();
+
+                                            newHiScore.timer.StartTimer();
+                                        }
+
+                                        // Pause button in playing game - OFF
+                                        uIControler.DeActivatePauseButton();
+
+                                        // Input counter - OFF
+                                        uIControler.DeActivateInputCounter();
+
+
+                                        // Scores
+                                        uIControler.ActivateScoresDisplay();
+
+                                        // scores Results - ON
+                                        uIControler.ActivateScoresInResults();
+
+                                        // scores Menu - OFF
+                                        uIControler.DeActivateScoresInMenu();
+
+                                        // Fished game
+                                        playGame = false;
+
+                                        fishedCollcting = false;
+
+                                        
+                                        // Game was played fisrt time - false
+                                        if (!gameDataControl.GetPlayedFistTime())
+                                        {
+                                            // Intro card holder
+                                            uIControler.ActivateIntroCradsHolder();
+
+                                            // Intro cards
+                                            uIControler.ActivateIntroCrads(introCardIndex);
+                                            
+                                            
+                                            // Turn on played game fusrt time 
+                                            gameDataControl.SetPlayedFistTime(true);
+                                        }
+                                    }
                                 }
                                 
-                                
-                                // Pause button in playing game - OFF
-                                uIControler.DeActivatePauseButton();
-                                
-                                // Input counter - OFF
-                                uIControler.DeActivateInputCounter();
-                                
+                                // Practcing - ON
+                                else
+                                {
+                                    // Reading the anouncements
+                                    readyingAnouncment = true;
 
-                                // Scores
-                                uIControler.ActivateScoresDisplay();
-                                
-                                // scores Results - ON
-                                uIControler.ActivateScoresInResults();
-        
-                                // scores Menu - OFF
-                                uIControler.DeActivateScoresInMenu();
+                                    // Start getting ready timer
+                                    gettingReadyTimer.StartTimer();
+                                    
+                                    // Pause button in playing game - OFF
+                                    uIControler.DeActivatePauseButton();
 
-                                // Fished game
-                                playGame = false;
+                                    // Other section
+                                    explaneGameInfoCards = false;
 
-                                fishedCollcting = false;
+                                    showIntroCards = true;
+                                    
+                                    // Intro cards holder
+                                    uIControler.ActivateIntroCradsHolder();
+                                }
                             }
                         }
                     }
                 }
             }
         }
+
 
         // If in mid acation
         if (extendAcations)
@@ -599,6 +727,7 @@ public class MainUpdate : MonoBehaviour
     
     // Extra functions
     
+    // Randmise
     private void RandmiseInputs()
     {
         for (var i = 0; i < settings.kyes.Length; i++)
@@ -609,11 +738,17 @@ public class MainUpdate : MonoBehaviour
             // Set the rand key based on the value
             settings.kyes[i] = inputSelctions.GetRandInout(settings.inputValues[i]);
         }
-
-        // Set the displyed input
-        displayedInput.SetImage(settings.inputValues[inputIndex]);
     }
 
+    private void RandmisePractInput()
+    {
+        settings.PracticeInpuValue = inputSelctions.GetRandNumber(0, 25);
+
+        settings.PracticeKey = inputSelctions.GetRandInout(settings.PracticeInpuValue);
+    }
+    
+    
+    // Reset
     private void ResetTempScores()
     {
         // Store data — the input time
@@ -626,7 +761,7 @@ public class MainUpdate : MonoBehaviour
         }
     }
 
-    private void ScoresStateReste()
+    private void ScoresStateReset()
     {
         uIControler.DeActivateScoresDisplay();
 
@@ -646,6 +781,33 @@ public class MainUpdate : MonoBehaviour
             // Turn OFF perment results
             uIControler.DeActivatePermanenttScores();
         }   
+    }
+
+    private void ResetIntroCardsSetUp()
+    {
+        // turrn off the curent card
+        uIControler.DeActivateIntroCrads(introCardIndex);
+
+        // Back to start
+        uIControler.ActivateIntroCrads(0);
+        
+        
+        
+        // Intro cards start - OFF
+        uIControler.DeActivateIntroCardsStartButton();
+        
+        // Intro  ards Got it - OFF
+        uIControler.DeActivateIntroCardsGotItButton();
+        
+        // Arrow bittons - ON
+        uIControler.ActivateIntroCardsLeftArrowButton();
+        uIControler.ActivateIntroCardsRightArrowButton();
+        
+        // Intro cards holder - OFF
+        uIControler.DeActivateIntroCradsHolder();
+        
+        // index = 0
+        introCardIndex = 0;
     }
     
     
@@ -711,6 +873,100 @@ public class MainUpdate : MonoBehaviour
     }
     
     
+    // Info card buttons
+
+    public void PracticeGameButton()
+    {
+        practice = true;
+        
+        // Show the strt cards
+        showIntroCards = true;
+            
+        explaneGameInfoCards = true;
+    }
+    
+    // Back
+    public void PrevuseInfoCardButton()
+    {
+        // prevuse Intro card - OFF
+        uIControler.DeActivateIntroCrads(introCardIndex);   
+
+        // dicrement
+        introCardIndex--;
+        
+        if (introCardIndex < 0)
+        {
+            introCardIndex = 0;
+        }
+
+        // The cureent info card - ON
+        uIControler.ActivateIntroCrads(introCardIndex);
+    }
+    
+    // Nect
+    public void NextInfoCardButton()
+    {
+        // Prevuse Intro card - OFF
+        uIControler.DeActivateIntroCrads(introCardIndex);
+        
+        introCardIndex++;
+
+        if (introCardIndex > uIControler.introCards.Length)
+        {
+            introCardIndex = uIControler.introCards.Length;
+        }
+
+        // Next intro cards - ON
+        uIControler.ActivateIntroCrads(introCardIndex);
+        
+    }
+
+    // Practice Start button
+    public void FishedPracticingStart()
+    {
+        // Set practiced game 
+        gameDataControl.SetPracticedGame(true);
+        
+        
+        // Prevuse Intro card - OFF
+        uIControler.DeActivateIntroCrads(introCardIndex);
+
+        
+        introCardIndex++;
+        
+        // Next intro cards - ON
+        uIControler.DeActivateIntroCrads(introCardIndex);
+        
+        
+        // Practice Start button - OFF
+        uIControler.DeActivateIntroCardsStartButton();
+
+        // Got it button - ON
+        uIControler.ActivateIntroCardsGotItButton();
+        
+        
+        // Intro cards holder - OFF
+        uIControler.DeActivateIntroCradsHolder();
+
+
+        // Show cards - OFF
+        showIntroCards = false;
+        
+        // Practicing - false
+        practice = false;
+    }
+    
+    // Got it button - when fisrt time played 
+    public void GotItButton()
+    {
+        // Rest into cards
+        ResetIntroCardsSetUp();
+
+        // Randmise practice cards
+        RandmisePractInput();
+    }
+    
+    
     public void StartPlaying()
     {
         uIControler.DeActivateStart();
@@ -720,12 +976,25 @@ public class MainUpdate : MonoBehaviour
 
         // Start getting ready timer
         gettingReadyTimer.StartTimer();
-        
-        
-        // Pause button in playing game - ON
-        uIControler.ActivatePauseButton();
-        
-        
+
+
+        // Practiving - ON
+        if (practice)
+        {
+            // Activate into cards holder
+            uIControler.ActivateIntroCradsHolder();
+            
+            
+            // Into crads - ON
+            uIControler.ActivateIntroCrads(introCardIndex);
+
+        }
+        else
+        {
+            // Pause button in playing game - ON
+            uIControler.ActivatePauseButton();
+        }
+
         // play active
         playGame = true;
     }
@@ -816,7 +1085,7 @@ public class MainUpdate : MonoBehaviour
             uIControler.DeActivatePauseButton();
 
             
-            // Increase input index
+            // Reset input index
             inputIndex = 0;
             
             acations = false;
@@ -851,14 +1120,28 @@ public class MainUpdate : MonoBehaviour
             showNewScoreText = false;
 
             // Reset scores screen
-            ScoresStateReste();
+            ScoresStateReset();
             
             // Start screen
             uIControler.ActivateStart();
         }
-
-        // Randmise input
-        RandmiseInputs();
+        
+        // Practiving - OFF
+        if (!practice)
+        {
+            // Randmise input
+            RandmiseInputs();   
+        }
+        else
+        {
+            if (showIntroCards)
+            { 
+                ResetIntroCardsSetUp();
+            }
+            
+            // Randmise practice input
+            RandmisePractInput();
+        }
     }
 
     public void PlayAgian()
@@ -883,7 +1166,7 @@ public class MainUpdate : MonoBehaviour
         ResetTempScores();
         
         // Puts back the score stae the way it was & deacativate it
-        ScoresStateReste();
+        ScoresStateReset();
     }
 
     public void PauseResume()

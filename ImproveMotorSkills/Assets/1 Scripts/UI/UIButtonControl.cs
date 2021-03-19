@@ -8,13 +8,14 @@ public class UIButtonControl : MonoBehaviour
     private UIControler uiControler;
     private MainUpdate mainUpdate;
 
-    // Start is called before the first frame update
+    // Star
     private void Start()
     {
         uiControler = GetComponent<UIControler>();
         mainUpdate = FindObjectOfType<MainUpdate>();
     }
 
+    
     // Start button
     public void StartButton()
     {
@@ -66,7 +67,34 @@ public class UIButtonControl : MonoBehaviour
         mainUpdate.DisplayNewHighScore();
     }
 
+    
+    // Show info cards
+    
+    // Back Arrow button
+    public void PrevuseInfoCardButtton()
+    {
+        mainUpdate.PrevuseInfoCardButton();
+    }
+    
+    // Next Arrow butoon 
+    public void NextInfoCardButton()
+    {
+        mainUpdate.NextInfoCardButton();
+    }
+    
+    // Practoce start buttpn 
+    public void PracticStartButton()
+    {
+        mainUpdate.FishedPracticingStart();
+    }
 
+    // Intro cards got it button
+    public void IntroCradsGotItButton()
+    {
+        mainUpdate.GotItButton();
+    }
+    
+    
     // Play again
     public void PlayAgainButton()
     {

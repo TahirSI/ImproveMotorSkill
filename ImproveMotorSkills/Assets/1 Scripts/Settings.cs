@@ -9,7 +9,7 @@ public class Settings : MonoBehaviour
     // Bools
 
     [HideInInspector]
-    public bool stopMovingGround = false;
+    public bool stopMovingGround;
 
     // anaoucment text
     public Vector2 readytextScalMinMax = Vector2.zero;
@@ -35,8 +35,10 @@ public class Settings : MonoBehaviour
     public float dodgeTime = 15;
 
     // Inpiut stuff
+    public KeyCode PracticeKey;
     public KeyCode [] kyes;
 
+    public int PracticeInpuValue;
     public int[] inputValues;
 
     public Sprite[] imputImages;

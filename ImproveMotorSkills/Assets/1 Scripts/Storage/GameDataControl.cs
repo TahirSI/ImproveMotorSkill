@@ -59,19 +59,36 @@ public class GameDataControl : MonoBehaviour
     #endregion
 
 
-    #region Need to practice
-    public void SetNeedToPractice(bool state)
+    #region practicing
+    
+    // Practice dGame
+    public void SetPracticedGame(bool state)
     {
-        gameData.needToPractice = state;
+        gameData.practicedGame = state;
     }
 
-    public bool GetNeedToPractice()
+    public bool GetPracticedGame()
     {
-        return gameData.needToPractice;
+        return gameData.practicedGame;
     }
     #endregion
 
 
+    #region played first time
+
+    public void SetPlayedFistTime(bool set)
+    {
+        gameData.playedFistTime = set;
+    }
+    
+    public bool GetPlayedFistTime()
+    {
+        return gameData.playedFistTime;
+    }
+
+    #endregion
+    
+    
     #region Collected main scores
     public void SetPermanentDataStorage(bool state)
     {

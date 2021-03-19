@@ -29,6 +29,12 @@ public class UIControler : MonoBehaviour
     public GameObject introCradsHolder;
     public GameObject[] introCards;
 
+    public GameObject introCardsLeftArrowButton;
+    public GameObject introCardsRightArrowButton;
+    
+    public GameObject introCardsStartButton;
+    public GameObject introCardsGotItButton;
+
     
     // input counter
     public GameObject inputCounter;
@@ -128,7 +134,7 @@ public class UIControler : MonoBehaviour
         return inputCounter;
     }
 
-    // Inpu counter text
+    // Input counter text
     public void SetInputCounterText(int count)
     {
         var text = "";
@@ -380,6 +386,74 @@ public class UIControler : MonoBehaviour
     public bool GetIntroCrads(int index)
     {
         return introCards[index].activeSelf;
+    }
+    
+    
+    // Intro cards Arrow left button
+    public void ActivateIntroCardsLeftArrowButton()
+    {
+        introCardsLeftArrowButton.SetActive(true);
+    }
+
+    public void DeActivateIntroCardsLeftArrowButton()
+    {
+        introCardsLeftArrowButton.SetActive(false);
+    }
+
+    public bool GetIntroCardsLeftArrowButton()
+    {
+        return introCardsLeftArrowButton.activeSelf;
+    }
+    
+    
+    // Intro cards Arrow left button
+    public void ActivateIntroCardsRightArrowButton()
+    {
+        introCardsRightArrowButton.SetActive(true);
+    }
+
+    public void DeActivateIntroCardsRightArrowButton()
+    {
+        introCardsRightArrowButton.SetActive(false);
+    }
+
+    public bool GetIntroCardsRightArrowButton()
+    {
+        return introCardsRightArrowButton.activeSelf;
+    }
+    
+    
+    // Intro cards Arrow left button
+    public void ActivateIntroCardsStartButton()
+    {
+        introCardsStartButton.SetActive(true);
+    }
+
+    public void DeActivateIntroCardsStartButton()
+    {
+        introCardsStartButton.SetActive(false);
+    }
+
+    public bool GetIntroCardsStartButton()
+    {
+        return introCardsStartButton.activeSelf;
+    }
+    
+    
+    // Intro cards got it Button
+    public void ActivateIntroCardsGotItButton()
+    {
+        introCardsGotItButton.SetActive(true);
+    }
+
+    public void DeActivateIntroCardsGotItButton()
+    {
+        introCardsGotItButton.SetActive(false);
+    }
+
+    public bool GetIntroCardsGotItButton()
+    {
+        return introCardsGotItButton.activeSelf;
     }
     
     #endregion

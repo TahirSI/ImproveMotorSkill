@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [System.Serializable]
 public class GameData
@@ -13,6 +14,8 @@ public class GameData
     public float changeableAvrageResult;
     
     // Long time checks
-    public bool needToPractice;
+    public bool practicedGame;
     public bool gotPermanentStorage;
+
+    public bool playedFistTime;
 }
