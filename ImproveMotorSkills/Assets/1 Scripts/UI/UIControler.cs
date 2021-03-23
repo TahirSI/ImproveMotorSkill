@@ -18,6 +18,15 @@ public class UIControler : MonoBehaviour
     // Quit
     public GameObject quit;
 
+    
+    // Practice
+    
+    // swithc
+    public GameObject practiceOFF;  // OFF
+    public GameObject practiceON;  // ON
+
+    public GameObject practiceSkip;
+    
 
     // Diplaying text - anoucment
     public GameObject anoucments;
@@ -154,6 +163,72 @@ public class UIControler : MonoBehaviour
     
     
     // Actions
+
+    #region Practice
+
+    // Switch
+    
+    // practice OFF
+    public void ActivatePracticeOff()
+    {
+        practiceOFF.SetActive(true);
+    }
+
+    public void DeActivatePracticeOff()
+    {
+        practiceOFF.SetActive(false);
+    }
+
+    public bool GetPracticeOff()
+    {
+        return practiceOFF.activeSelf;
+    }
+    
+    public GameObject GetPracticeOffObject()
+    {
+        return practiceOFF;
+    }
+    
+    // practice ON
+    public void ActivatePracticeOn()
+    {
+        practiceON.SetActive(true);
+    }
+
+    public void DeActivatePracticeOn()
+    {
+        practiceON.SetActive(false);
+    }
+
+    public bool GetPracticeOn()
+    {
+        return practiceON.activeSelf;
+    }
+
+    public GameObject GetPracticeOnObject()
+    {
+        return practiceON;
+    }
+    
+    
+    // Practice slip 
+    public void ActivatePracticeSkip()
+    {
+        practiceSkip.SetActive(true);
+    }
+
+    public void DeActivatePracticeSkip()
+    {
+        practiceSkip.SetActive(false);
+    }
+
+    public bool GetPracticeSkip()
+    {
+        return practiceSkip.activeSelf;
+    }
+    
+    #endregion
+    
     
     #region States
     
@@ -386,6 +461,11 @@ public class UIControler : MonoBehaviour
     public bool GetIntroCrads(int index)
     {
         return introCards[index].activeSelf;
+    }
+
+    public int GetIntroCardsSize()
+    {
+        return introCards.Length;
     }
     
     

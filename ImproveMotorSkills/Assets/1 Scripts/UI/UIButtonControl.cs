@@ -8,7 +8,7 @@ public class UIButtonControl : MonoBehaviour
     private UIControler uiControler;
     private MainUpdate mainUpdate;
 
-    // Star
+    // Start
     private void Start()
     {
         uiControler = GetComponent<UIControler>();
@@ -67,6 +67,18 @@ public class UIButtonControl : MonoBehaviour
         mainUpdate.DisplayNewHighScore();
     }
 
+    // Practice switch
+    public void PracticeSwitchButton()
+    {
+        mainUpdate.PracticeSwitchButton();
+    }
+    
+    // Practice skip
+    public void PracticeSkipButton()
+    {
+        mainUpdate.PracticeSkipButton();
+    }
+    
     
     // Show info cards
     
