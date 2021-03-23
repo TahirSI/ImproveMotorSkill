@@ -536,6 +536,74 @@ public class UIControler : MonoBehaviour
         return introCardsGotItButton.activeSelf;
     }
     
+    
+    // Intro cards Arrow left button
+    public void ActivateIntroCardsLeftArrowButton()
+    {
+        introCardsLeftArrowButton.SetActive(true);
+    }
+
+    public void DeActivateIntroCardsLeftArrowButton()
+    {
+        introCardsLeftArrowButton.SetActive(false);
+    }
+
+    public bool GetIntroCardsLeftArrowButton()
+    {
+        return introCardsLeftArrowButton.activeSelf;
+    }
+    
+    
+    // Intro cards Arrow left button
+    public void ActivateIntroCardsRightArrowButton()
+    {
+        introCardsRightArrowButton.SetActive(true);
+    }
+
+    public void DeActivateIntroCardsRightArrowButton()
+    {
+        introCardsRightArrowButton.SetActive(false);
+    }
+
+    public bool GetIntroCardsRightArrowButton()
+    {
+        return introCardsRightArrowButton.activeSelf;
+    }
+    
+    
+    // Intro cards Arrow left button
+    public void ActivateIntroCardsStartButton()
+    {
+        introCardsStartButton.SetActive(true);
+    }
+
+    public void DeActivateIntroCardsStartButton()
+    {
+        introCardsStartButton.SetActive(false);
+    }
+
+    public bool GetIntroCardsStartButton()
+    {
+        return introCardsStartButton.activeSelf;
+    }
+    
+    
+    // Intro cards got it Button
+    public void ActivateIntroCardsGotItButton()
+    {
+        introCardsGotItButton.SetActive(true);
+    }
+
+    public void DeActivateIntroCardsGotItButton()
+    {
+        introCardsGotItButton.SetActive(false);
+    }
+
+    public bool GetIntroCardsGotItButton()
+    {
+        return introCardsGotItButton.activeSelf;
+    }
+    
     #endregion
 
 
