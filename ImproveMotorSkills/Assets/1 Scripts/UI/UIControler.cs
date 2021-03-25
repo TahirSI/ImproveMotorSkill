@@ -22,8 +22,8 @@ public class UIControler : MonoBehaviour
     // Practice
     
     // swithc
-    public GameObject practiceOFF;  // OFF
-    public GameObject practiceON;  // ON
+    public GameObject practiceOFF;          // OFF
+    public GameObject practiceON;           // ON
 
     public GameObject practiceSkip;
     
@@ -167,7 +167,7 @@ public class UIControler : MonoBehaviour
     #region Practice
 
     // Switch
-    
+
     // practice OFF
     public void ActivatePracticeOff()
     {

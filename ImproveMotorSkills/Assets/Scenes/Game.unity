@@ -2403,7 +2403,6 @@ GameObject:
   - component: {fileID: 482814559}
   - component: {fileID: 482814558}
   - component: {fileID: 482814557}
-  - component: {fileID: 482814560}
   m_Layer: 5
   m_Name: Practice OFF
   m_TagString: Untagged
@@ -2473,7 +2472,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 482814558}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1184917644}
+        m_TargetAssemblyTypeName: UIButtonControl, Assembly-CSharp
+        m_MethodName: PracticeSwitchButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &482814558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2512,18 +2523,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 482814555}
   m_CullTransparentMesh: 1
---- !u!114 &482814560
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 482814555}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09fd4fba6b1dc477d9ed9108c525a4ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &525680695
 GameObject:
   m_ObjectHideFlags: 0
@@ -2573,7 +2572,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: dc702dd2828864ad5ad76b65118ea6bf, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -3368,7 +3367,6 @@ GameObject:
   - component: {fileID: 857298458}
   - component: {fileID: 857298457}
   - component: {fileID: 857298456}
-  - component: {fileID: 857298455}
   m_Layer: 5
   m_Name: Practice ON
   m_TagString: Untagged
@@ -3395,18 +3393,6 @@ RectTransform:
   m_AnchoredPosition: {x: 213.7, y: -136.1}
   m_SizeDelta: {x: 124, y: 124}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &857298455
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 857298453}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 09fd4fba6b1dc477d9ed9108c525a4ec, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &857298456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3450,7 +3436,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 857298457}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1184917644}
+        m_TargetAssemblyTypeName: UIButtonControl, Assembly-CSharp
+        m_MethodName: PracticeSwitchButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &857298457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5958,9 +5956,9 @@ MonoBehaviour:
   gotHitrotSpeed: 600
   dodgableObjectPernet: {fileID: 1749748826}
   dodgeTime: 2
-  PracticeKey: 0
+  PracticeKey: 0000000000000000
   kyes: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
-  PracticeInpuValue: 0
+  PracticeInpuValue: 0000000000000000
   inputValues: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
   imputImages:
   - {fileID: 21300000, guid: 563cbd435667f4f84a958494a671410e, type: 3}

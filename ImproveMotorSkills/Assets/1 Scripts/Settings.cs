@@ -35,11 +35,11 @@ public class Settings : MonoBehaviour
     public float dodgeTime = 15;
 
     // Inpiut stuff
-    public KeyCode PracticeKey;
+    public KeyCode []PracticeKey;
     public KeyCode [] kyes;
 
-    public int PracticeInpuValue;
-    public int[] inputValues;
+    public int [] PracticeInpuValue;
+    public int [] inputValues;
 
     public Sprite[] imputImages;
 }

@@ -12,7 +12,7 @@ public class MoveDodgable : MonoBehaviour
     // Private
     private Vector3 begin_point = new Vector3(0, 0, 0);
 
-    private void Start()
+    public void SetBegingPos()
     {
         begin_point = transform.position;
     }

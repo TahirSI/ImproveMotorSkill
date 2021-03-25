@@ -30,7 +30,9 @@ public class MainUpdate : MonoBehaviour
 
     private bool dodged;
 
-    private int inputIndex = 0;
+    private int practiInputIndex;
+    
+    private int inputIndex;
     private float[] timesStored = new float[10];
 
     private bool showNewScoreText;
@@ -89,6 +91,9 @@ public class MainUpdate : MonoBehaviour
         // Set pos des
         displayedInput.SetPosShift(new Vector3(0, 2.5f, 0));
         
+        // Dodge object set to reset beging 
+        objectToDodge.SetBegingPos();
+        
         
         // Display ready 
         gettingReadyTimer.timerToStopAt = 0.8f;
@@ -103,7 +108,7 @@ public class MainUpdate : MonoBehaviour
 
         // Set the dodgale object speed
 
-        // Ech grid square is 50px  
+        // Each grid square is 50px  
         settings.dodgableObjectsSpeed = 50 *
             ((settings.dodgableObjectPernet.transform.position.x - 3) * 2) /
             (100 * settings.dodgeTime);
@@ -128,9 +133,7 @@ public class MainUpdate : MonoBehaviour
             uIControler.ActivateIntroCrads(introCardIndex);
 
             // Practice off - OFF
-            uIControler.GetPracticeOffObject().GetComponent<Button>().enabled = false;
-            
-            
+            uIControler.GetPracticeOffObject().GetComponent<Button>().interactable = false;
         }
         else
         {
@@ -343,7 +346,7 @@ public class MainUpdate : MonoBehaviour
                                     else
                                     {
                                         // Set the disply input
-                                        displayedInput.SetImage(settings.PracticeInpuValue);
+                                        displayedInput.SetImage(settings.PracticeInpuValue[practiInputIndex]);
                                     }
 
                                     displayedInput.ActivateObject();
@@ -356,15 +359,15 @@ public class MainUpdate : MonoBehaviour
                                     inputTimer.UpdateTimer();
 
                                     var check = false;
-
                                     
+                                    // Key
                                      var setInput = KeyCode.A;
                                     
                                     // Practcing - ON
                                     if (practice)
                                     {
                                         // Practice input
-                                        setInput = settings.PracticeKey;
+                                        setInput = settings.PracticeKey[practiInputIndex];
                                     }
                                     else
                                     {
@@ -428,16 +431,27 @@ public class MainUpdate : MonoBehaviour
                                         // Practice - ON
                                         else
                                         {
-                                            practice = false;
+                                            practiInputIndex++;
 
-                                            // Practiced game - Check
-                                            if (!gameDataControl.GetPracticedGame())
+                                            if (practiInputIndex > settings.PracticeKey.Length - 1)
                                             {
-                                                // Set practiced game 
-                                                gameDataControl.SetPracticedGame(true);
+                                                practice = false;
+
+                                                // Practiced game - Check
+                                                if (!gameDataControl.GetPracticedGame())
+                                                {
+                                                    // Set practiced game 
+                                                    gameDataControl.SetPracticedGame(true);
+                                                }
+                                                
+                                                // Practice OFF - actiavte button
+                                                uIControler.GetPracticeOffObject().GetComponent<Button>().interactable = true;
+                                            
+                                                // Practice OFF - ON
+                                                uIControler.ActivatePracticeOff();
                                             }
-                                    
-                                            // Acatopn for practice
+                                            
+                                            // Acatopn for practice - true
                                             practiceAcation = true;
                                         }
                                         
@@ -659,7 +673,12 @@ public class MainUpdate : MonoBehaviour
                                             // Thnak you intro cards - ON
                                             uIControler.ActivateIntroCrads(introCardIndex);
         
-        
+                                            
+                                            // Decativate left & right arrows
+                                            uIControler.DeActivateIntroCardsLeftArrowButton();
+                                            uIControler.DeActivateIntroCardsRightArrowButton();                                            
+                                            
+                                            
                                             // Practice Start button - OFF
                                             uIControler.DeActivateIntroCardsStartButton();
 
@@ -679,22 +698,36 @@ public class MainUpdate : MonoBehaviour
                                 // Practcing action - ON
                                 else
                                 {
-                                    // Reading the anouncements
-                                    readyingAnouncment = true;
+                                    if (practiInputIndex < settings.PracticeKey.Length)
+                                    {
+                                        waitToStartTimer.StartTimer();
+                                    }
 
-                                    // Start getting ready timer
-                                    gettingReadyTimer.StartTimer();
+                                    if (practiInputIndex > settings.PracticeKey.Length - 1)
+                                    {
+                                        // Reading the anouncements
+                                        readyingAnouncment = true;
+
+                                        // Start getting ready timer
+                                        gettingReadyTimer.StartTimer();
+                                        
+                                        // Pause button in playing game - OFF
+                                        uIControler.DeActivatePauseButton();
+                                        
+                                        // Rest index
+                                        practiInputIndex = 0;
+
+                                        // Other section
+                                        explaneGameInfoCards = false;
+
+                                        showIntroCards = true;
+
+                                        // Intro cards holder
+                                        uIControler.ActivateIntroCradsHolder();
+                                    }
                                     
-                                    // Pause button in playing game - OFF
-                                    uIControler.DeActivatePauseButton();
-
-                                    // Other section
-                                    explaneGameInfoCards = false;
-
-                                    showIntroCards = true;
-                                    
-                                    // Intro cards holder
-                                    uIControler.ActivateIntroCradsHolder();
+                                    // Acatopn for practice - False
+                                    practiceAcation = false;
                                 }
                             }
                         }
@@ -801,9 +834,12 @@ public class MainUpdate : MonoBehaviour
 
     private void RandmisePractInput()
     {
-        settings.PracticeInpuValue = inputSelctions.GetRandNumber(0, 25);
+        for (int i = 0; i < settings.PracticeKey.Length; i++)
+        {
+            settings.PracticeInpuValue[i] = inputSelctions.GetRandNumber(0, 25);
 
-        settings.PracticeKey = inputSelctions.GetRandInout(settings.PracticeInpuValue);
+            settings.PracticeKey[i] = inputSelctions.GetRandInout(settings.PracticeInpuValue[i]);   
+        }
     }
     
     
@@ -932,13 +968,36 @@ public class MainUpdate : MonoBehaviour
     }
     
     
-    // Practice switch
+    // Practice ON / OFF switch
     public void PracticeSwitchButton()
     {
         // Has not practiced
         if (gameDataControl.GetPracticedGame())
         {
-            
+            // If OFF - is active
+            if (uIControler.GetPracticeOff())
+            {
+                practice = true;
+                
+                // Practive OFF - OFF
+                uIControler.DeActivatePracticeOff();
+                
+                // Practice on - ON
+                uIControler.ActivatePracticeOn();
+
+                // Practice skip button - ON
+                uIControler.ActivatePracticeSkip();
+            }
+            else if (uIControler.GetPracticeOn())
+            {
+                practice = false;
+                
+                // Practice on - OFF
+                uIControler.DeActivatePracticeOn();
+                
+                // Practive OFF - ON
+                uIControler.ActivatePracticeOff();
+            }
         }
     }
 
@@ -982,7 +1041,7 @@ public class MainUpdate : MonoBehaviour
             introCardIndex = 0;
         }
 
-        // Has not practiced
+        // Has practiced
         if (gameDataControl.GetPracticedGame())
         {
             if (introCardIndex <= 0)
@@ -997,6 +1056,12 @@ public class MainUpdate : MonoBehaviour
 
         // The cureent info card - ON
         uIControler.ActivateIntroCrads(introCardIndex);
+
+        if (introCardIndex <= 0)
+        {
+            // Go mack to menu
+            Menu();
+        }
     }
     
     // Nect
@@ -1224,6 +1289,9 @@ public class MainUpdate : MonoBehaviour
             // Pause button in playing game - OFF
             uIControler.DeActivatePauseButton();
 
+
+            // Reset  practiceinput index
+            practiInputIndex = 0;
             
             // Reset input index
             inputIndex = 0;
@@ -1256,7 +1324,7 @@ public class MainUpdate : MonoBehaviour
             // Deacativate pause
             uIControler.DeActivatePause();
 
-            
+
             // pracie action - ON
             if (practiceAcation)
             {
@@ -1265,6 +1333,8 @@ public class MainUpdate : MonoBehaviour
             
                 // Into crads - OFF
                 uIControler.DeActivateIntroCrads(introCardIndex);
+
+                practiceAcation = false;
             }
         }
         
@@ -1283,18 +1353,34 @@ public class MainUpdate : MonoBehaviour
         // Practiving - OFF
         if (!practice)
         {
-            ResetIntroCardsSetUp();
-
             // Randmise input
-            RandmiseInputs();   
+            RandmiseInputs();
+            
+            
+            // Practice ON - OFF
+            uIControler.DeActivatePracticeOn();
+                    
+            // Practice OFF - ON
+            uIControler.ActivatePracticeOff();
         }
         else
         {
-            ResetIntroCardsSetUp();
-
+            if (gameDataControl.GetPracticedGame())
+            {
+                practice = false;
+                
+                // Practice ON - OFF
+                uIControler.DeActivatePracticeOn();
+                    
+                // Practice OFF - ON
+                uIControler.ActivatePracticeOff();
+            }
+            
             // Randmise practice input
             RandmisePractInput();
         }
+        
+        ResetIntroCardsSetUp();
     }
 
     public void PlayAgian()
