@@ -36,9 +36,10 @@ public class Settings : MonoBehaviour
 
     // Inpiut stuff
     public KeyCode []PracticeKey;
-    public KeyCode [] kyes;
-
     public int [] PracticeInpuValue;
+
+    
+    public KeyCode [] kyes;
     public int [] inputValues;
 
     public Sprite[] imputImages;

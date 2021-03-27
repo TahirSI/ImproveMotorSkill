@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class Timer : MonoBehaviour
 {
-    public float timerToStopAt = 3;
+    [SerializeField]
+    private float timerToStopAt = 3;
+    
     private float time;
 
     // Bools
@@ -48,6 +50,12 @@ public class Timer : MonoBehaviour
         timer_on = false;
     }
 
+    // Set Timer amount
+    public void SetTimerToStopAmount(float setTime)
+    {
+        timerToStopAt = setTime;
+    }
+    
     // Get timer amount 
     public float GetTimerToStopAmount()
     {

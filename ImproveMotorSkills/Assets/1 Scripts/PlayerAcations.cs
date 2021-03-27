@@ -27,11 +27,19 @@ public class PlayerAcations : MonoBehaviour
 
     private Rigidbody2D rb;
 
-    public Settings settings;
+    [SerializeField]
+    private Settings settings;
+
+    
+    private Animator anim;
+    private static readonly int Jumped = Animator.StringToHash("Jumped");
+    private static readonly int GotHit = Animator.StringToHash("GotHit");
 
     // Start
     private void Start()
     {
+        anim = GetComponent<Animator>();
+        
         //Start
         orignalPos = transform.position;
         
@@ -72,6 +80,8 @@ public class PlayerAcations : MonoBehaviour
 
             if (amountRoatations >= 360 * 2)
             {
+                anim.SetBool(GotHit, false);
+                
                 // Set roatation
                 transform.rotation = orignalRot;
 
@@ -100,6 +110,8 @@ public class PlayerAcations : MonoBehaviour
     // collistion - Enter
     private void OnCollisionEnter2D(Collision2D collision)
         {
+            anim.SetBool(Jumped, false);
+
             // Grounded
             if (!grounded && collision.gameObject.CompareTag("Ground"))
             {
@@ -117,7 +129,7 @@ public class PlayerAcations : MonoBehaviour
     private void OnCollisionExit2D(Collision2D collision)
     {
         // Not Grounded
-        if (grounded && stillJump && collision.gameObject.CompareTag("Ground"))
+        if (stillJump && collision.gameObject.CompareTag("Ground"))
         {
             grounded = false;
         }
@@ -129,12 +141,15 @@ public class PlayerAcations : MonoBehaviour
     // Goy hit
     public void ActivateGotHit()
     {
+        anim.SetBool(GotHit, true);
         getingHit = true;
     }
 
     // Jumping
     public void ActivateJump()
     {
+        anim.SetBool(Jumped, true);
+
         rb.bodyType = RigidbodyType2D.Dynamic;
 
         stillJump = true;

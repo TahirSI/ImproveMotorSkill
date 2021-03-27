@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class InputSelection : MonoBehaviour
@@ -11,7 +9,7 @@ public class InputSelection : MonoBehaviour
 
     public KeyCode GetRandInout(int index)
     {
-        KeyCode retunKeyCod = KeyCode.A;
+        var retunKeyCod = KeyCode.A;
 
         if (index == 0)       // A
         {

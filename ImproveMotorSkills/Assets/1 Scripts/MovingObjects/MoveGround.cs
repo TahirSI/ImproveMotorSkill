@@ -5,9 +5,10 @@ using UnityEngine;
 public class MoveGround : MonoBehaviour
 {
     [SerializeField]
-    public float speed = 10;
-
-    public Transform transportpoint;
+    private float speed = 10;
+    
+    [SerializeField]
+    private Transform transportpoint;
 
     private Settings settings;
 

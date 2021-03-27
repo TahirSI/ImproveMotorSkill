@@ -7,75 +7,105 @@ using UnityEngine.UI;
 
 public class UIControler : MonoBehaviour
 {
+    [SerializeField]
     public Settings settings;
     
     // Start
-    public GameObject start;
+    [SerializeField]
+    private GameObject start;
 
     // Pause
-    public GameObject paused;
+    [SerializeField]
+    private GameObject paused;
 
     // Quit
-    public GameObject quit;
+    [SerializeField]
+    private GameObject quit;
 
     
     // Practice
     
     // swithc
-    public GameObject practiceOFF;          // OFF
-    public GameObject practiceON;           // ON
+    [SerializeField]
+    private GameObject practiceOFF;          // OFF
+    [SerializeField]
+    private GameObject practiceON;           // ON
 
-    public GameObject practiceSkip;
+    [SerializeField]
+    private GameObject practiceSkip;
     
 
     // Diplaying text - anoucment
-    public GameObject anoucments;
-    public GameObject readyText;
-    public GameObject goText;
+    [SerializeField]
+    private GameObject anoucments;
+    [SerializeField]
+    private GameObject readyText;
+    [SerializeField]
+    private GameObject goText;
 
     
     // Intro crds - practice attempt
-    public GameObject introCradsHolder;
-    public GameObject[] introCards;
+    [SerializeField]
+    private GameObject introCradsHolder;
+    [SerializeField]
+    private GameObject[] introCards;
 
-    public GameObject introCardsLeftArrowButton;
-    public GameObject introCardsRightArrowButton;
+    [SerializeField]
+    private GameObject introCardsLeftArrowButton;
+    [SerializeField]
+    private GameObject introCardsRightArrowButton;
     
-    public GameObject introCardsStartButton;
-    public GameObject introCardsGotItButton;
+    [SerializeField]
+    private GameObject introCardsStartButton;
+    [SerializeField]
+    private GameObject introCardsGotItButton;
 
     
     // input counter
-    public GameObject inputCounter;
-    public Text inputCounterText;
+    [SerializeField]
+    private GameObject inputCounter;
+    [SerializeField]
+    private Text inputCounterText;
     
     
     // Scores
-    public GameObject soresDisplay;
+    [SerializeField]
+    private GameObject soresDisplay;
 
     // Panles
-    public GameObject chnageScores;
-    public GameObject permanenttScores;
+    [SerializeField]
+    private GameObject chnageScores;
+    [SerializeField]
+    private GameObject permanenttScores;
 
     // Score texts
-    public Text [] scoresChnageText;
-    public Text [] scorePermntText;
+    [SerializeField]
+    private Text [] scoresChnageText;
+    [SerializeField]
+    private Text [] scorePermntText;
     
-    public Text scoresChnageAvrageText;     // Avrage - chnage
-    public Text scoresPermntAvrageText;     // Avrage - permenat
+    [SerializeField]
+    private Text scoresChnageAvrageText;     // Avrage - chnage
+    [SerializeField]
+    private Text scoresPermntAvrageText;     // Avrage - permenat
 
-    public GameObject newHighScore;
+    [SerializeField]
+    private GameObject newHighScore;
     
     
     
     // Diffrent secetions for buttons
-    public GameObject scoresInResults;
-    public GameObject scoresInMenu;
+    [SerializeField]
+    private GameObject scoresInResults;
+    [SerializeField]
+    private GameObject scoresInMenu;
     
     // Buttons
-    public GameObject scoresBackToMenuButton;
+    [SerializeField]
+    private GameObject scoresBackToMenuButton;
 
-    public GameObject pauseButton;
+    [SerializeField]
+    private GameObject pauseButton;
     
     
     // Set Scores
@@ -144,7 +174,7 @@ public class UIControler : MonoBehaviour
     }
 
     // Input counter text
-    public void SetInputCounterText(int count)
+    public void SetInputCounterText(int count, int limit)
     {
         var text = "";
 
@@ -157,7 +187,7 @@ public class UIControler : MonoBehaviour
             text = count.ToString();
         }
         
-        inputCounterText.text = text + " / " + settings.inputValues.Length.ToString();
+        inputCounterText.text = text + " / " + limit;
     }
     
     

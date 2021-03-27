@@ -5,11 +5,15 @@ using UnityEngine;
 public class MoveDodgable : MonoBehaviour
 {
     [SerializeField]
-    public float speed = 10;
-
-    public float objectDestenc = -3;
-
-    // Private
+    private float speed = 10;
+    
+    [SerializeField]
+    private float objectDestenc = -3;
+    
+    [SerializeField]
+    private Vector3 inputPosShift = Vector3.zero;
+    
+    
     private Vector3 begin_point = new Vector3(0, 0, 0);
 
     public void SetBegingPos()
@@ -40,6 +44,13 @@ public class MoveDodgable : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    // Setters
+    public void SetSpeed(float setSpeed)
+    {
+        speed = setSpeed;
+    }
+    
+    
     // Getters
     public bool GetObjectActive()
     {
@@ -58,6 +69,12 @@ public class MoveDodgable : MonoBehaviour
         return gameObject.transform;
     }
 
+    public Vector3 GetInputPosShift()
+    {
+        return inputPosShift;
+    }
+    
+    
     // Reste object
     public void ResetObject()
     {

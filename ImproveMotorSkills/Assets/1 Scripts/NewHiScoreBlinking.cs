@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class NewHiScoreBlinking : MonoBehaviour
 {
-    public GameObject newHighScore;
-    
-    public Timer timer;
+    [SerializeField]
+    private GameObject newHighScore;
+    [SerializeField]
+    private Timer timer;
 
     // Update is called once per frame
     public void UpdateNewHighScore()

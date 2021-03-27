@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,20 +8,25 @@ public class CamAcations : MonoBehaviour
 {
     [SerializeField]
     private  float zoomedOutCamPoint = 0.4f;
-    
     [SerializeField]
     private  float zoomedInCamPoint = 0.4f;
-    
     [SerializeField]
     private  float aniInSpeed = 8;
-
     [SerializeField]
     private  float aniOutSpeed = 2;
+    
     
     private float direction = 1;
     
     private bool animate;
-    
+
+    private void Awake()
+    {
+        var pos = transform.position;
+
+        transform.position = new Vector3(pos.x, pos.y, zoomedOutCamPoint);
+    }
+
     // Update is called once per frame
     public void UpdateCam()
     {

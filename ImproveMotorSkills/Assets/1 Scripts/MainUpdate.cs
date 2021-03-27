@@ -37,6 +37,11 @@ public class MainUpdate : MonoBehaviour
 
     private bool showNewScoreText;
 
+    
+    // Dodgeable object 
+    private int dodgedObjectIndex;
+    
+    
     // External
     private Settings settings;
 
@@ -53,20 +58,32 @@ public class MainUpdate : MonoBehaviour
 
     // Dislsyed input
     private InputSelection inputSelctions;
-    public DisplayedInput displayedInput;
-
+    
+    
     // Public
+    
+    [SerializeField]
+    private DisplayedInput displayedInput;
+    
+    [SerializeField]
     public PlayerAcations playerAcations;
 
     // Objects to doage
-    public MoveDodgable objectToDodge;
+    [SerializeField]
+    private MoveDodgable [] objectToDodge;
 
-    public MovingText moveReadyText;
-    public MovingText moveGoText;
+    
+    // Moving text
+    [SerializeField]
+    private MovingText moveReadyText;
+    [SerializeField]
+    private MovingText moveGoText;
 
-    public NewHiScoreBlinking newHiScore;
+    [SerializeField]
+    private NewHiScoreBlinking newHiScore;
 
-    public CamAcations camAcations;
+    [SerializeField]
+    private CamAcations camAcations;
     
     // Start is called before the first frame update
     private void Start()
@@ -86,24 +103,24 @@ public class MainUpdate : MonoBehaviour
 
         // Get the practice input
         RandmisePractInput();
-
-
-        // Set pos des
-        displayedInput.SetPosShift(new Vector3(0, 2.5f, 0));
         
+
         // Dodge object set to reset beging 
-        objectToDodge.SetBegingPos();
+        for (var i = 0; i < objectToDodge.Length; i++)
+        {
+            objectToDodge[i].SetBegingPos();   
+        }
         
-        
+
         // Display ready 
-        gettingReadyTimer.timerToStopAt = 0.8f;
+        gettingReadyTimer.SetTimerToStopAmount(0.8f);
 
 
         // Set wait time - 1 sec
-        waitToStartTimer.timerToStopAt = 1;
+        waitToStartTimer.SetTimerToStopAmount(1);
 
         // Set input timer
-        inputTimer.timerToStopAt = settings.dodgeTime;
+        inputTimer.SetTimerToStopAmount(settings.dodgeTime);
 
 
         // Set the dodgale object speed
@@ -117,9 +134,11 @@ public class MainUpdate : MonoBehaviour
         settings.groundMoveSpeed = settings.dodgableObjectsSpeed;
 
         // Set the dogable obejct speed
-        objectToDodge.speed = settings.dodgableObjectsSpeed;
+        for (var i = 0; i < objectToDodge.Length; i++)
+        {
+            objectToDodge[i].SetSpeed(settings.dodgableObjectsSpeed);
+        }
 
-        
         // Practicing sestion
         practice = !gameDataControl.GetPracticedGame();
         
@@ -170,8 +189,6 @@ public class MainUpdate : MonoBehaviour
                             explaneGameInfoCards = false;
                             showIntroCards = false;
                             
-                            // Cam animate IN
-                            camAcations.AnimateIn();
                             
                             // Pause button in playing game - ON
                             uIControler.ActivatePauseButton();
@@ -186,6 +203,9 @@ public class MainUpdate : MonoBehaviour
                             
                             // Intro card holder
                             uIControler.DeActivateIntroCradsHolder();
+                            
+                            // Cam animate IN
+                            camAcations.AnimateIn();
                         }   
                     }
                 }
@@ -296,15 +316,19 @@ public class MainUpdate : MonoBehaviour
 
                                 readyingAnouncment = false;
 
-
+                                // Input counter
+                                uIControler.ActivateInputCounter();
+                                
                                 // Practcing - OFF
                                 if (!practice)
                                 {
-                                    // Input counter
-                                    uIControler.ActivateInputCounter();
-
                                     // Set the input counter text
-                                    uIControler.SetInputCounterText(inputIndex + 1);
+                                    uIControler.SetInputCounterText(inputIndex + 1, settings.kyes.Length);
+                                }
+                                else
+                                {
+                                    // Set the input counter text
+                                    uIControler.SetInputCounterText(practiInputIndex + 1, settings.PracticeKey.Length);
                                 }
                                 
                                 
@@ -333,8 +357,16 @@ public class MainUpdate : MonoBehaviour
 
                                     interactable = true;
 
-                                    objectToDodge.ActivateObject();
-
+                                    
+                                    // Dodgeable obejct randmises
+                                    RandmiseDodgeObject();
+                                    
+                                    // Dodgeable - Activate 
+                                    objectToDodge[dodgedObjectIndex].ActivateObject();
+                                    
+                                    // Set pos distnce
+                                    displayedInput.SetPosShift(objectToDodge[dodgedObjectIndex].GetInputPosShift());
+                                    
 
                                     if (!practice)
                                     {
@@ -387,7 +419,7 @@ public class MainUpdate : MonoBehaviour
                                         }
 
                                         // Set the speed ups
-                                        objectToDodge.speed = settings.objectsFastSpeed;
+                                        objectToDodge[dodgedObjectIndex].SetSpeed(settings.objectsFastSpeed);
                                         settings.groundMoveSpeed = settings.objectsFastSpeed;
 
                                         inputed = true;
@@ -546,15 +578,15 @@ public class MainUpdate : MonoBehaviour
                         }
 
                         // Dodgable object
-                        if (objectToDodge.GetObjectActive())
+                        if (objectToDodge[dodgedObjectIndex].GetObjectActive())
                         {
                             // Update the dodge object
-                            objectToDodge.UpdateObject();
+                            objectToDodge[dodgedObjectIndex].UpdateObject();
 
                             // If inputed
                             if (inputed)
                             {
-                                if (objectToDodge.GetObjectPos().x < 4)
+                                if (objectToDodge[dodgedObjectIndex].GetObjectPos().x < 4)
                                 {
                                     // Inputed back to false
                                     inputed = false;
@@ -563,7 +595,7 @@ public class MainUpdate : MonoBehaviour
                                     dodged = true;
 
                                     // Set the speed back to normal
-                                    objectToDodge.speed = settings.dodgableObjectsSpeed;
+                                    objectToDodge[dodgedObjectIndex].SetSpeed(settings.dodgableObjectsSpeed);
                                     settings.groundMoveSpeed = settings.dodgableObjectsSpeed;
 
                                     playerAcations.ActivateJump();
@@ -574,7 +606,7 @@ public class MainUpdate : MonoBehaviour
                         // Displyed input
                         if (displayedInput.GetAcativeObject())
                         {
-                            displayedInput.Move(objectToDodge.GetObjectPos());
+                            displayedInput.Move(objectToDodge[dodgedObjectIndex].GetObjectPos());
                         }
 
                         // Actions need to happen
@@ -610,6 +642,12 @@ public class MainUpdate : MonoBehaviour
 
                                 performence = false;
 
+                                // Pause button in playing game - OFF
+                                uIControler.DeActivatePauseButton();
+                                
+                                // Input counter - OFF
+                                uIControler.DeActivateInputCounter();
+                                
                                 
                                 // In game - results collceting
                                 if (!practiceAcation)
@@ -620,7 +658,7 @@ public class MainUpdate : MonoBehaviour
                                         waitToStartTimer.StartTimer();
 
                                         // Set the input counter text
-                                        uIControler.SetInputCounterText(inputIndex + 1);
+                                        uIControler.SetInputCounterText(inputIndex + 1, settings.kyes.Length);
                                         
                                     }
 
@@ -633,14 +671,8 @@ public class MainUpdate : MonoBehaviour
                                             // Actiave new high score
                                             uIControler.ActivateNewHighScore();
 
-                                            newHiScore.timer.StartTimer();
+                                            newHiScore.GetTimer().StartTimer();
                                         }
-
-                                        // Pause button in playing game - OFF
-                                        uIControler.DeActivatePauseButton();
-
-                                        // Input counter - OFF
-                                        uIControler.DeActivateInputCounter();
 
 
                                         // Scores
@@ -702,7 +734,11 @@ public class MainUpdate : MonoBehaviour
                                     {
                                         waitToStartTimer.StartTimer();
                                     }
+                                    
+                                    // Set the input counter text
+                                    uIControler.SetInputCounterText(practiInputIndex + 1, settings.PracticeKey.Length);
 
+                                    
                                     if (practiInputIndex > settings.PracticeKey.Length - 1)
                                     {
                                         // Reading the anouncements
@@ -711,8 +747,7 @@ public class MainUpdate : MonoBehaviour
                                         // Start getting ready timer
                                         gettingReadyTimer.StartTimer();
                                         
-                                        // Pause button in playing game - OFF
-                                        uIControler.DeActivatePauseButton();
+                                        
                                         
                                         // Rest index
                                         practiInputIndex = 0;
@@ -725,7 +760,7 @@ public class MainUpdate : MonoBehaviour
                                         // Intro cards holder
                                         uIControler.ActivateIntroCradsHolder();
                                     }
-                                    
+
                                     // Acatopn for practice - False
                                     practiceAcation = false;
                                 }
@@ -764,10 +799,10 @@ public class MainUpdate : MonoBehaviour
             }
             
             // Dodgable object
-            if (objectToDodge.GetObjectActive())
+            if (objectToDodge[dodgedObjectIndex].GetObjectActive())
             {
                 // Update the dodge object
-                objectToDodge.UpdateObject();
+                objectToDodge[dodgedObjectIndex].UpdateObject();
             }
             
 
@@ -904,6 +939,14 @@ public class MainUpdate : MonoBehaviour
         // index = 0
         introCardIndex = 0;
     }
+
+    private void RandmiseDodgeObject()
+    {
+        if (objectToDodge.Length > 1)
+        {
+            dodgedObjectIndex = inputSelctions.GetRandNumber(0, objectToDodge.Length);
+        }
+    }
     
     
     // UI buttons
@@ -962,7 +1005,7 @@ public class MainUpdate : MonoBehaviour
                 uIControler.ActivateNewHighScore();
             
                 // Start timer 
-                newHiScore.timer.StartTimer();
+                newHiScore.GetTimer().StartTimer();
             }
         }
     }
@@ -1072,9 +1115,9 @@ public class MainUpdate : MonoBehaviour
         
         introCardIndex++;
 
-        if (introCardIndex > uIControler.introCards.Length)
+        if (introCardIndex > uIControler.GetIntroCardsSize())
         {
-            introCardIndex = uIControler.introCards.Length;
+            introCardIndex = uIControler.GetIntroCardsSize();
         }
 
         // Has not practiced
@@ -1145,6 +1188,7 @@ public class MainUpdate : MonoBehaviour
     }
     
     
+    // Menu buttons
     public void StartPlaying()
     {
         uIControler.DeActivateStart();
@@ -1250,11 +1294,11 @@ public class MainUpdate : MonoBehaviour
                 if (!acations)
                 {
                     // Set the speed back to normal
-                    objectToDodge.speed = settings.dodgableObjectsSpeed;
+                    objectToDodge[dodgedObjectIndex].SetSpeed(settings.dodgableObjectsSpeed);
                     settings.groundMoveSpeed = settings.dodgableObjectsSpeed;
 
                     // Reset dodge object
-                    objectToDodge.ResetObject();
+                    objectToDodge[dodgedObjectIndex].ResetObject();
 
                     // Decativate displayyed input
                     displayedInput.DeactivateObject();
