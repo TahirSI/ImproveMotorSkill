@@ -124,5 +124,38 @@ I also set up an outline of the UI structure with a; start, pause, scores and qu
 
 ## Week eighteen
 
+There was a problem with how the images would scale  along with the window size, this was easily fixed by simply clicking on a check box in the canvas settings. I also exported the images again with twice the resolution so when the program runs a higher resolution screens images wouldn’t be blurry.
 
+I also added announcement texts, that showed ‘Ready’ and ‘Go’ texts before starting the testing in the program. 
 
+I was planning on animating the two texts based on a timer, the texts would scale and fade in fast, then slow down while still scaling and then fade out with scaling fast, based on the option set in the editor. I also had it where I could control witch direction the text would scale to, however I couldn’t get scaling and fading to work autumnally the way I wanted based on a timer limit. 
+
+I Instead decided to have it all be control from the editor; the scale starting and ending positions, the point in witch the scaling would slow down and speed back up, the fading in and out speed along with the scaling speed, still keying witch direction to scale to, and removed the timer that was meant to have been the bounds for the two texts’ interactions.
+
+ I found that I was over engineering the solution where to the point I was wasting time trying to get this small interaction to work.
+
+## Week nineteen/twenty
+
+I found that it would be good to added a wait timer before the announcement texts would show up.
+
+I Also ad all of the other remaining functionality to the buttons that need it so, and now I have a game loop, where the participants can ever go back to main menu play again or quit.
+
+I also added the results with an average, based on what they scored.
+
+To show what the users is going to do I added practice round before the actually starting the attempts, so they have time to familiarise them selves with the flow of the game play.
+
+As my program is going to tell the users what to expect I created info cards, that will explain how the game  will be played, along side with the practice round. 
+
+After the practice attempt have be done another info cards pops up, confirming before actually taking the test, pressing the ‘Start’ button will then start the attempts. If the program is played the first time the practice round will have to be played, afterwords a button can be pressed   in the main menu if the player wants to practice again.
+
+After collecting the results form the play a final info cards pops up that thank the user for taking part.
+
+## Week twenty one
+
+I was suggested that the text of the info cards should be re-written and is bit unclear at some points, there are to many of them with a lot of jargon that isn’t needed or could be rewritten, so I need to change the info cards to be more clearer on what is to be expected form the user.
+
+I was told that it would be good to have more then one attempt, so I made it two instead, I was going to make it three but I thought that that might be too many. This based off the rule of three, as when a person is told do something more ten three times repeatedly in a row they might get bored or not have the motivation to do it, so having a gap in between might not make them thing that way.
+
+Continuing off the same  thinking, I thought it would be best to have the objects to dodge also be different, so I made it that they  would also be randomise after each round, this include practice rounds as well.
+
+I quickly added sprite animations to the character for running, jumping and getting it. There was issues where the animation would be delayed when activated, but that was fixed quickly by changing the animation transition speed in the animation’s settings.
