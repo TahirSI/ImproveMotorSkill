@@ -121,3 +121,8 @@ Taking feedback from last week, I changed the text field that showed what input 
 I Implemented a way to store information on local disc and made a quick end screen that shows all scores results. I made the scripts that stores data to store two types of data, the first will store the result that will be sent as part of my research data, this won’t change after the experiment has been completed and the other is the data that collects the changing (high score) results as part of the game loop. I did make so both results can be seen from the game end screen.
 
 I also set up an outline of the UI structure with a; start, pause, scores and quit screens with some of the button’s functionality working.
+
+## Week eighteen
+
+
+
