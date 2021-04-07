@@ -53,6 +53,19 @@ public class UIButtonControl : MonoBehaviour
         }
     }
 
+    // Scores delete
+    public void DeleteScores()
+    {
+        mainUpdate.DeleteScores();
+    }
+    
+    // Delete all game data
+    public void DeleteALLGameData()
+    {
+        mainUpdate.DeletAllSavedData();
+    }
+
+
     public void MenuButton()
     {
         mainUpdate.Menu();

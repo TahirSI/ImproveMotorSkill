@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,6 +6,38 @@ using UnityEngine;
 public class GameDataControl : MonoBehaviour
 {
     public GameData gameData;
+
+    public void RestGameData(bool all_dtaa)
+    {
+        for (var i = 0; i < gameData.changeableStoredResults.Length; i++)
+        {
+            // Changable storage
+            gameData.changeableStoredResults[i] = 0;
+        }
+
+        // Avrages
+        gameData.changeableAvrageResult = 0;
+        
+
+        // Delete all data
+        if (all_dtaa)
+        {
+            for (var i = 0; i < gameData.permanentStoredResults.Length; i++)
+            {
+                // Permenent storage
+                gameData.permanentStoredResults[i] = 0;
+            }
+            
+            // Avrange
+            gameData.permanentAvrageResult = 0;
+            
+            // Stored peremnt data - false
+            gameData.gotPermanentStorage = false;
+
+            gameData.practicedGame = false;     // Practicing game
+            gameData.playedFistTime = false;    // Played first time
+        }
+    }
 
     #region Storring / Getting
     

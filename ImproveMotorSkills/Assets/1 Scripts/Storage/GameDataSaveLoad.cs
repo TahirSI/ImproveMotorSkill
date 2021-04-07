@@ -10,7 +10,6 @@ public class GameDataSaveLoad : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        //Delete();
         gameDataControll = GetComponent<GameDataControl>();
         LoadData();
     }

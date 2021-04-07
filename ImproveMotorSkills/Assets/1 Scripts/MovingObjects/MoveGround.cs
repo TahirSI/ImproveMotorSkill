@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class MoveGround : MonoBehaviour
 {
+    [SerializeField] 
+    private float negativeXPos;
+    
     [SerializeField]
     private float speed = 10;
     
@@ -28,9 +31,9 @@ public class MoveGround : MonoBehaviour
 
             this.transform.position -= move * Time.deltaTime;
 
-            if (transform.position.x <= -13)
+            if (transform.position.x <= negativeXPos)
             {
-                move = new Vector3(transportpoint.position.x + 11, 0, 0);
+                move = new Vector3(transportpoint.position.x + 22.109f, transportpoint.position.y, 0);
 
                 transform.position = move;
             }

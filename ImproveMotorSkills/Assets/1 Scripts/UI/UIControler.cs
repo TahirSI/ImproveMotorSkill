@@ -8,19 +8,19 @@ using UnityEngine.UI;
 public class UIControler : MonoBehaviour
 {
     [SerializeField]
-    public Settings settings;
-    
+    private Settings settings;
+
     // Start
-    [SerializeField]
-    private GameObject start;
+    [FormerlySerializedAs("start")] [SerializeField]
+    private GameObject startHolder;
 
     // Pause
-    [SerializeField]
-    private GameObject paused;
+    [FormerlySerializedAs("paused")] [SerializeField]
+    private GameObject pausedHolder;
 
     // Quit
-    [SerializeField]
-    private GameObject quit;
+    [FormerlySerializedAs("quit")] [SerializeField]
+    private GameObject quitHolder;
 
     
     // Practice
@@ -72,6 +72,13 @@ public class UIControler : MonoBehaviour
     [SerializeField]
     private GameObject soresDisplay;
 
+    [SerializeField]
+    private GameObject soresDelete;
+    
+    [SerializeField]
+    private GameObject allDataDelete;
+    
+    
     // Panles
     [SerializeField]
     private GameObject chnageScores;
@@ -145,18 +152,20 @@ public class UIControler : MonoBehaviour
     }
 
     // Avrages
-    public void SetChangeScoreAvrageText(float amount)
+    public void SetChangeScoreAvrageText(float amount)      // Change
     {
         scoresChnageAvrageText.text = amount.ToString(CultureInfo.InvariantCulture);
-    }       // Change
-    public void SetPermanentScoreAvrageText(float amount)
+    }
+    
+    public void SetPermanentScoreAvrageText(float amount)   // Permant
     {
         scoresPermntAvrageText.text = amount.ToString(CultureInfo.InvariantCulture);
-    }   // Permant
+    }
     
     #endregion
-    
-    
+
+
+
     // Input counter
     public void ActivateInputCounter()
     {
@@ -265,51 +274,51 @@ public class UIControler : MonoBehaviour
     // Start
     public void ActivateStart()
     {
-        start.SetActive(true);
+        startHolder.SetActive(true);
     }
 
     public void DeActivateStart()
     {
-        start.SetActive(false);
+        startHolder.SetActive(false);
     }
 
     public bool GetStart()
     {
-        return start.activeSelf;
+        return startHolder.activeSelf;
     }
 
 
     // Paused
-    public void ActivatePause()
+    public void ActivatePauseHolder()
     {
-        paused.SetActive(true);
+        pausedHolder.SetActive(true);
     }
 
-    public void DeActivatePause()
+    public void DeActivatePauseHolder()
     {
-        paused.SetActive(false);
+        pausedHolder.SetActive(false);
     }
 
-    public bool GetPause()
+    public bool GetPauseHolder()
     {
-        return paused.activeSelf;
+        return pausedHolder.activeSelf;
     }
 
 
     // Quit
     public void ActivateQuit()
     {
-        quit.SetActive(true);
+        quitHolder.SetActive(true);
     }
 
     public void DeActivateQuit()
     {
-        quit.SetActive(false);
+        quitHolder.SetActive(false);
     }
 
     public bool GetQuit()
     {
-        return quit.activeSelf;
+        return quitHolder.activeSelf;
     }
 
     #endregion
@@ -331,6 +340,50 @@ public class UIControler : MonoBehaviour
     public bool GetScoresDisplay()
     {
         return soresDisplay.activeSelf;
+    }    
+    
+    
+    // Score delete
+    public void ActivateScoresDelete()
+    {
+        soresDelete.SetActive(true);
+    }
+    
+    public void DeActivateScoresDelete()
+    {
+        soresDelete.SetActive(false);
+    }
+    
+    public bool GetScoresDelete()
+    {
+        return soresDelete.activeSelf;
+    }
+    
+    public GameObject GetScoresDeleteGameObject()
+    {
+        return soresDelete;
+    }
+    
+    
+    // All data delete
+    public void ActivateAllDataDelete()
+    {
+        allDataDelete.SetActive(true);
+    }
+    
+    public void DeActivateAllDataDelete()
+    {
+        allDataDelete.SetActive(false);
+    }
+    
+    public bool GetAllDataDelete()
+    {
+        return allDataDelete.activeSelf;
+    }
+    
+    public GameObject GetAllDataDeleteGameObject()
+    {
+        return allDataDelete;
     }
     
     

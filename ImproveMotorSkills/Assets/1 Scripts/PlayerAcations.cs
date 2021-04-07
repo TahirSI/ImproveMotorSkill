@@ -113,7 +113,7 @@ public class PlayerAcations : MonoBehaviour
             anim.SetBool(Jumped, false);
 
             // Grounded
-            if (!grounded && collision.gameObject.CompareTag("Ground"))
+            if (stillJump && collision.gameObject.CompareTag("Ground"))
             {
                 grounded = true;
 
@@ -135,7 +135,29 @@ public class PlayerAcations : MonoBehaviour
         }
     }
 
-
+    // Anaimtion
+    
+    // ON / OFF switch
+    public void PauseAnimationSwitch()
+    {
+        // Anim is - ON
+        if (anim.isActiveAndEnabled)
+        {
+            anim.enabled = false;
+        }
+        else
+        {
+            anim.enabled = true;
+        }
+    }
+    
+    // Reacative aimation
+    public void ReactivateAnimation()
+    {
+        anim.enabled = true;
+    }
+    
+    
     // Activations
 
     // Goy hit

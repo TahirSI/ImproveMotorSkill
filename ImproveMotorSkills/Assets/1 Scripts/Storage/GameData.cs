@@ -14,8 +14,8 @@ public class GameData
     public float changeableAvrageResult;
     
     // Long time checks
-    public bool practicedGame;
     public bool gotPermanentStorage;
+    public bool practicedGame;
 
     public bool playedFistTime;
 }
