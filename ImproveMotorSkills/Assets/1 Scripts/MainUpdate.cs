@@ -154,7 +154,7 @@ public class MainUpdate : MonoBehaviour
         // Check the all delete butto active state 
         CheckAllDataDelteOnOff();
 
-        // Check ifneed to practice
+        // Check if need to practice
         CheckPractice();
         
         // Allrdy practiced
@@ -714,6 +714,12 @@ public class MainUpdate : MonoBehaviour
                                         // Cam animate OUT
                                         camAcations.AnimateOut();
 
+                                        // Skip button
+                                        if (uIControler.GetPracticeSkip())
+                                        {
+                                            uIControler.DeActivatePracticeSkip();
+                                        }
+                                        
 
                                         // Game was played fisrt time - false
                                         if (!gameDataControl.GetPlayedFistTime())
@@ -781,6 +787,9 @@ public class MainUpdate : MonoBehaviour
 
                                         // Intro cards holder
                                         uIControler.ActivateIntroCradsHolder();
+                                        
+                                        // Save data
+                                        gameDataSaveLoad.SaveData();
                                     }
 
                                     // Actiopn for practice - False
@@ -1091,7 +1100,7 @@ public class MainUpdate : MonoBehaviour
             // Upadat local data
             ScoresUpdateLocalData();
             
-            // Deactiveate delete button
+            // Deactiveate score delete button
             CheckScoreDelteOnOff();
         }
     }
@@ -1113,6 +1122,8 @@ public class MainUpdate : MonoBehaviour
         // Rests info card holder
         ResetIntroCardsSetUp();
         
+        // Deactiveate score delete button
+        CheckScoreDelteOnOff();
         
         // Practice skip button
         uIControler.DeActivatePracticeSkip();

@@ -43,6 +43,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Quit
+  - name: Backdrop
     uniqueID: 372158829
+    locked: 0
+  - name: MidGround
+    uniqueID: 308959743
+    locked: 0
+  - name: Forground
+    uniqueID: 3330210611
     locked: 0

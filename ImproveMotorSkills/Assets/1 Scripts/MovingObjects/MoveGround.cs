@@ -11,7 +11,11 @@ public class MoveGround : MonoBehaviour
     private float speed = 10;
     
     [SerializeField]
+    private float objectWidth;
+    
+    [SerializeField]
     private Transform transportpoint;
+
 
     private Settings settings;
 
@@ -33,7 +37,7 @@ public class MoveGround : MonoBehaviour
 
             if (transform.position.x <= negativeXPos)
             {
-                move = new Vector3(transportpoint.position.x + 22.109f, transportpoint.position.y, 0);
+                move = new Vector3(transportpoint.position.x + objectWidth, transportpoint.position.y, 0);
 
                 transform.position = move;
             }
