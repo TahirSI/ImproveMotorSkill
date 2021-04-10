@@ -159,3 +159,14 @@ I was told that it would be good to have more then one attempt, so I made it two
 Continuing off the same  thinking, I thought it would be best to have the objects to dodge also be different, so I made it that they  would also be randomise after each round, this include practice rounds as well.
 
 I quickly added sprite animations to the character for running, jumping and getting it. There was issues where the animation would be delayed when activated, but that was fixed quickly by changing the animation transition speed in the animation’s settings.
+
+## Week twenty two / twenty three - Easet brake
+
+
+The program has been completed, with custom sprite assets added for backdrops, buttons and small backdrop effects, along with even more objects that the player can interact with.
+
+From the feedback about the information cards, I rewrote them and made them clearer. I also added images to go with the text as secondary explainers.
+
+While I was going through the Unity’s analytics system on how to use it. I learned that it doesn’t quite have the level of control with results finding I’m looking for as previously thought, interns of handling the system with how I want to use it, as such I decided not to use Unity’s analytics and simply ask the participants to take a screen shot or a picture that can be sent to me.
+
+To make the process of informing and collecting information as simple as possible, I made a shared OneDrive folder that holds all of the information that the participants need to know about and the consent form that they need to fill in. I also created folders for the participants to store their results and consent forms and added a read me pdf to explain everything to the participants.
