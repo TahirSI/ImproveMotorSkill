@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerAcations : MonoBehaviour
 {
+    // The 2D player charctor sprite and it's animations that are being used
+    // is from the Unity's Standard Assets Pack from the Unity store.
+    
     private Vector3 orignalPos = Vector3.zero;
     private Quaternion orignalRot = Quaternion.identity;
 
