@@ -6820,6 +6820,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stopMovingGround: 0
+  checkSampeKeys: 0
   readytextScalMinMax: {x: 0.5, y: 3.6}
   gotextScalMinMax: {x: 8, y: 1}
   readyTextScaleSpeed: {x: 14, y: 1, z: 37}

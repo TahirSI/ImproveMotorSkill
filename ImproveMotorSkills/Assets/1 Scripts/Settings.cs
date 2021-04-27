@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Settings : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class Settings : MonoBehaviour
 
     [HideInInspector]
     public bool stopMovingGround;
+    
+    [FormerlySerializedAs("checkSampeKey")] [SerializeField]
+    public bool checkSampeKeys;
 
     // anaoucment text
     public Vector2 readytextScalMinMax = Vector2.zero;

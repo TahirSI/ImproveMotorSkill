@@ -937,6 +937,31 @@ public class MainUpdate : MonoBehaviour
             // Get the rand value
             settings.inputValues[i] = inputSelctions.GetRandNumber(0, 25);
 
+            // Checks if the key is same one of the others
+            if (settings.checkSampeKeys)
+            {
+                if (i > 0)
+                {
+                    var cehckSame = false;
+
+                    for (var j = 0; j < i; j++)
+                    {
+                        if (j != i)
+                        {
+                            cehckSame = settings.inputValues[j] == settings.inputValues[i];
+                            
+                            while (cehckSame)
+                            {
+                                // Get the rand value
+                                settings.inputValues[i] = inputSelctions.GetRandNumber(0, 25);
+                            
+                                cehckSame = settings.inputValues[j] == settings.inputValues[i];
+                            }
+                        }
+                    }
+                }
+            }
+
             // Set the rand key based on the value
             settings.kyes[i] = inputSelctions.GetRandInout(settings.inputValues[i]);
         }
@@ -944,10 +969,35 @@ public class MainUpdate : MonoBehaviour
 
     private void RandmisePractInput()
     {
-        for (int i = 0; i < settings.PracticeKey.Length; i++)
+        for (var i = 0; i < settings.PracticeKey.Length; i++)
         {
             settings.PracticeInpuValue[i] = inputSelctions.GetRandNumber(0, 25);
 
+            // Checks if the key is same one of the others
+            if (settings.checkSampeKeys)
+            {
+                if (i > 0)
+                {
+                    var cehckSame = false;
+
+                    for (var j = 0; j < i; j++)
+                    {
+                        if (j != i)
+                        {
+                            cehckSame = settings.inputValues[j] == settings.inputValues[i];
+                            
+                            while (cehckSame)
+                            {
+                                // Get the rand value
+                                settings.inputValues[i] = inputSelctions.GetRandNumber(0, 25);
+                            
+                                cehckSame = settings.inputValues[j] == settings.inputValues[i];
+                            }
+                        }
+                    }
+                }
+            }
+            
             settings.PracticeKey[i] = inputSelctions.GetRandInout(settings.PracticeInpuValue[i]);   
         }
     }
