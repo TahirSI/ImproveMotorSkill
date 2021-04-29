@@ -170,3 +170,9 @@ From the feedback about the information cards, I rewrote them and made them clea
 While I was going through the Unity’s analytics system on how to use it. I learned that it doesn’t quite have the level of control with results finding I’m looking for as previously thought, interns of handling the system with how I want to use it, as such I decided not to use Unity’s analytics and simply ask the participants to take a screen shot or a picture that can be sent to me.
 
 To make the process of informing and collecting information as simple as possible, I made a shared OneDrive folder that holds all of the information that the participants need to know about and the consent form that they need to fill in. I also created folders for the participants to store their results and consent forms and added a read me pdf to explain everything to the participants.
+
+## Week twenty four / Submition
+
+Gathered some participants that where willing  to be a part of the experiment. Collected the results for the OneDrive and made them into tables and graphs that can be place into the report. 
+
+Wrote up a draft of the report and got some feedback. Polished up the report and submitted it along with the video.
