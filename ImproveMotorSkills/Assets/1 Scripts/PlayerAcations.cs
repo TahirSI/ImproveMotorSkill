@@ -43,12 +43,12 @@ public class PlayerAcations : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         
-        //Start
+        //Start pos 
         orignalPos = transform.position;
         
         rb = GetComponent<Rigidbody2D>();
         
-        orignalPos = transform.position;
+        //Start rot 
         orignalRot = transform.rotation;
 
         jumpForceMuil = settings.playerJumpMulti;
